@@ -7,8 +7,14 @@ import java.io.File;
 import java.io.IOException;
 
 public class Dog implements KeyListener {
-    private int x = 0;
-    private int y = 0;
+
+    private int x;
+    private int y;
+
+    private int jumpLimit = 100;
+    private int ground_y = 500;
+    private int gap = 10;
+
     private Image image;
     private View view;
 
@@ -20,6 +26,9 @@ public class Dog implements KeyListener {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        this.x = 50;
+        this.y = ground_y;
     }
 
     public void draw(Graphics g, View view) {
@@ -38,29 +47,29 @@ public class Dog implements KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
-        int gap = 10;
-        int pos[] = null;
-        if(x < 0)
-            x = 0;
-        if(y < 0)
-            y = 0;
         switch(e.getKeyCode())
         {
             case KeyEvent.VK_UP:
-                y -= gap;
-                break;
-            case KeyEvent.VK_DOWN:
-                y += gap;
-                break;
-            case KeyEvent.VK_LEFT:
-                x -= gap;
-                break;
-            case KeyEvent.VK_RIGHT:
-                x += gap;
+                Jump();
                 break;
         }
-        x = pos[0];
-        y = pos[1];
         System.out.println(x+", "+y);
+    }
+
+    private void Jump() {
+        // 점프
+        while (true) {
+            y -= gap;
+            System.out.println("jumping");
+            if (y <= ground_y - jumpLimit)
+                break;
+        }
+        // 착지
+        while (true) {
+            y += gap;
+            System.out.println("landing");
+            if (y == ground_y)
+                break;
+        }
     }
 }
