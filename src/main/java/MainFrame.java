@@ -1,5 +1,3 @@
-package InGame;
-
 import javax.swing.JFrame;
 
 public class MainFrame extends JFrame {
@@ -7,7 +5,7 @@ public class MainFrame extends JFrame {
 
     public MainFrame () {
         setTitle("Dog Run");
-        setSize(300, 300);
+        setSize(800, 800);
         setResizable(false);
 
         add(view);
@@ -15,6 +13,6 @@ public class MainFrame extends JFrame {
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        view.initBufferd();
+        view.initBuffered();
     }
 }

@@ -1,11 +1,8 @@
-package InGame;
-
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -17,7 +14,12 @@ public class View extends Canvas {
     private Timer timer;
     private TimerTask timerTask;
 
+    private Dog dog;
+
     public View() {
+        dog = new Dog(this);
+        addKeyListener(dog);
+
         timer = new Timer();
         timerTask = new TimerTask() {
             public void run() {
@@ -27,7 +29,7 @@ public class View extends Canvas {
         timer.schedule(timerTask, 0, 1);
     }
 
-    public void initBufferd() {
+    public void initBuffered() {
         dim = getSize();
         setBackground(Color.white);
         offscreen = createImage(dim.width, dim.height);
@@ -49,13 +51,6 @@ public class View extends Canvas {
     }
 
     public void render (Graphics g) {
-        Random rand = new Random();
-        for (int i = 0; i < 100; i++) {
-            g.drawLine(
-                    rand.nextInt(dim.width),
-                    rand.nextInt(dim.height),
-                    rand.nextInt(dim.width),
-                    rand.nextInt(dim.height));
-        }
+        dog.draw(g, this);
     }
 }
