@@ -5,6 +5,7 @@ import java.awt.event.KeyListener;
 import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Time;
 
 public class Dog implements KeyListener {
 
@@ -13,10 +14,17 @@ public class Dog implements KeyListener {
 
     private int jumpLimit = 100;
     private int ground_y = 500;
-    private int gap = 10;
+    private int gap = 20;
+    private double jumpingDelay = 0.025;
+    private double landingDelay = 0.015;
+
+    private boolean jumping = false;
+    private boolean landing = false;
 
     private Image image;
     private View view;
+
+    private TimeCtrl time = new TimeCtrl();
 
     public Dog (View view) {
         this.view = view;
@@ -33,6 +41,23 @@ public class Dog implements KeyListener {
 
     public void draw(Graphics g, View view) {
         g.drawImage(image, x, y, (ImageObserver) view);
+
+        if (jumping) {
+            if (time.timeCtrl(jumpingDelay)) // 점프
+                y -= gap;
+            if (y < ground_y - jumpLimit) {
+                jumping = false;
+                landing = true;
+            }
+        }
+        else if (landing) {
+            if (time.timeCtrl(landingDelay))       // 착지
+                y += gap;
+            if (y == ground_y) {
+                jumping = false;
+                landing = false;
+            }
+        }
     }
 
     @Override
@@ -50,26 +75,10 @@ public class Dog implements KeyListener {
         switch(e.getKeyCode())
         {
             case KeyEvent.VK_UP:
-                Jump();
+                if (!jumping && !landing)
+                    jumping = true;
                 break;
         }
-        System.out.println(x+", "+y);
-    }
-
-    private void Jump() {
-        // 점프
-        while (true) {
-            y -= gap;
-            System.out.println("jumping");
-            if (y <= ground_y - jumpLimit)
-                break;
-        }
-        // 착지
-        while (true) {
-            y += gap;
-            System.out.println("landing");
-            if (y == ground_y)
-                break;
-        }
+        //System.out.println(x+", "+y);
     }
 }
