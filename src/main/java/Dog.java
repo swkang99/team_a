@@ -9,15 +9,17 @@ import java.sql.Time;
 
 public class Dog implements KeyListener {
 
-    public int x;
-    public int y;
+    private int x;
+    private int y;
 
-    public int jumpLimit = 100;
-    public int ground_y = 500;
-    public int gap = 20;
-    private long jumpingDelay = 1;
+    private int jumpLimit = 100;
+    private int ground_y = 500;
+    private int gap = 20;
+    private double jumpingDelay = 0.025;
+    private double landingDelay = 0.015;
 
-    public boolean jumping = false;
+    private boolean jumping = false;
+    private boolean landing = false;
 
     private Image image;
     private View view;
@@ -39,6 +41,23 @@ public class Dog implements KeyListener {
 
     public void draw(Graphics g, View view) {
         g.drawImage(image, x, y, (ImageObserver) view);
+
+        if (jumping) {
+            if (time.timeCtrl(jumpingDelay)) // 점프
+                y -= gap;
+            if (y < ground_y - jumpLimit) {
+                jumping = false;
+                landing = true;
+            }
+        }
+        else if (landing) {
+            if (time.timeCtrl(landingDelay))       // 착지
+                y += gap;
+            if (y == ground_y) {
+                jumping = false;
+                landing = false;
+            }
+        }
     }
 
     @Override
@@ -56,46 +75,10 @@ public class Dog implements KeyListener {
         switch(e.getKeyCode())
         {
             case KeyEvent.VK_UP:
-                if (!jumping)
-                    Jump();
-                break;
-            case KeyEvent.VK_DOWN:
-                y += gap;
-                break;
-            case KeyEvent.VK_LEFT:
-                x -= gap;
-                break;
-            case KeyEvent.VK_RIGHT:
-                x += gap;
+                if (!jumping && !landing)
+                    jumping = true;
                 break;
         }
-        System.out.println(x+", "+y);
+        //System.out.println(x+", "+y);
     }
-
-    private void Jump() {
-        jumping = true;
-        if(jumping) {
-                // 점프
-                while (true) {
-                    if (time.timeCtrl(jumpingDelay)) {
-                        y -= gap;
-                        System.out.println("jumping, x: " + x + ", y: " + y);
-                    }
-                    if (y <= ground_y - jumpLimit)
-                        break;
-                }
-                // 착지
-                while (true) {
-                    if (time.timeCtrl(jumpingDelay)) {
-                        y += gap;
-                        System.out.println("landing, x: " + x + ", y: " + y);
-                    }
-                    if (y == ground_y) {
-                        jumping = false;
-                        break;
-                    }
-                }
-        }
-    }
-
 }
