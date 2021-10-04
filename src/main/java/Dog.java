@@ -16,7 +16,7 @@ public class Dog implements KeyListener {
     private int ground_y = 500;
     private int gap = 20;
     private double jumpingDelay = 0.025;
-    private double landingDelay = 0.015;
+    private double landingDelay = 0.020;
 
     private boolean jumping = false;
     private boolean landing = false;
@@ -41,23 +41,7 @@ public class Dog implements KeyListener {
 
     public void draw(Graphics g, View view) {
         g.drawImage(image, x, y, (ImageObserver) view);
-
-        if (jumping) {
-            if (time.timeCtrl(jumpingDelay)) // 점프
-                y -= gap;
-            if (y < ground_y - jumpLimit) {
-                jumping = false;
-                landing = true;
-            }
-        }
-        else if (landing) {
-            if (time.timeCtrl(landingDelay))       // 착지
-                y += gap;
-            if (y == ground_y) {
-                jumping = false;
-                landing = false;
-            }
-        }
+        Jump();
     }
 
     @Override
@@ -80,5 +64,24 @@ public class Dog implements KeyListener {
                 break;
         }
         //System.out.println(x+", "+y);
+    }
+
+    private void Jump() {
+        if (jumping) {
+            if (time.timeCtrl(jumpingDelay)) // 점프
+                y -= gap;
+            if (y < ground_y - jumpLimit) {
+                jumping = false;
+                landing = true;
+            }
+        }
+        else if (landing) {
+            if (time.timeCtrl(landingDelay))       // 착지
+                y += gap;
+            if (y == ground_y) {
+                jumping = false;
+                landing = false;
+            }
+        }
     }
 }
