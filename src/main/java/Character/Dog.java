@@ -17,7 +17,7 @@ public class Dog implements KeyListener {
     private int y;
 
     private int jumpLimit = 100;
-    private int ground_y = 500;
+
     private int gap = 20;
     private double jumpingDelay = 0.025;
     private double landingDelay = 0.020;
@@ -38,7 +38,7 @@ public class Dog implements KeyListener {
         }
 
         this.x = 50;
-        this.y = ground_y;
+        this.y = GameMng.getInstance().ground_y;
     }
 
     public void draw(Graphics g, View view) {
@@ -75,7 +75,7 @@ public class Dog implements KeyListener {
         if (jumping) {
             if (GameMng.getInstance().timeCtrl(jumpingDelay)) // 점프
                 y -= gap;
-            if (y < ground_y - jumpLimit) {
+            if (y < GameMng.getInstance().ground_y - jumpLimit) {
                 jumping = false;
                 landing = true;
             }
@@ -83,7 +83,7 @@ public class Dog implements KeyListener {
         else if (landing) {
             if (GameMng.getInstance().timeCtrl(landingDelay))       // 착지
                 y += gap;
-            if (y == ground_y) {
+            if (y == GameMng.getInstance().ground_y) {
                 jumping = false;
                 landing = false;
             }

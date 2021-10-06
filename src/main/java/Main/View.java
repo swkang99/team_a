@@ -8,6 +8,7 @@ import java.awt.Image;
 import java.util.Timer;
 import java.util.TimerTask;
 import Character.*;
+import Obstacle.BigDog;
 
 public class View extends Canvas {
     private Graphics bufferGraphics;
@@ -18,10 +19,13 @@ public class View extends Canvas {
     private TimerTask timerTask;
 
     private Dog dog;
+    private BigDog bidDog;
 
     public View() {
         dog = new Dog(this);
         addKeyListener(dog);
+
+        bidDog = new BigDog(this);
 
         timer = new Timer();
         timerTask = new TimerTask() {
@@ -55,5 +59,6 @@ public class View extends Canvas {
 
     public void render (Graphics g) {
         dog.draw(g, this);
+        bidDog.draw(g, View.this);
     }
 }
