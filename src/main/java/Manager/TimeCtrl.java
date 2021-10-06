@@ -1,3 +1,5 @@
+package Manager;
+
 public class TimeCtrl {
     long time;
 
