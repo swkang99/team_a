@@ -1,3 +1,8 @@
+package Character;
+
+import Main.View;
+import Manager.GameMng;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -5,7 +10,6 @@ import java.awt.event.KeyListener;
 import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.IOException;
-import java.sql.Time;
 
 public class Dog implements KeyListener {
 
@@ -13,7 +17,7 @@ public class Dog implements KeyListener {
     private int y;
 
     private int jumpLimit = 100;
-    private int ground_y = 500;
+
     private int gap = 20;
     private double jumpingDelay = 0.025;
     private double landingDelay = 0.020;
@@ -23,8 +27,6 @@ public class Dog implements KeyListener {
 
     private Image image;
     private View view;
-
-    private TimeCtrl time = new TimeCtrl();
 
     public Dog (View view) {
         this.view = view;
@@ -36,7 +38,7 @@ public class Dog implements KeyListener {
         }
 
         this.x = 50;
-        this.y = ground_y;
+        this.y = GameMng.getInstance().ground_y;
     }
 
     public void draw(Graphics g, View view) {
@@ -61,6 +63,9 @@ public class Dog implements KeyListener {
             case KeyEvent.VK_UP:
                 if (!jumping && !landing)
                     jumping = true;
+            case KeyEvent.VK_SPACE:
+                if (!jumping && !landing)
+                    jumping = true;
                 break;
         }
         //System.out.println(x+", "+y);
@@ -68,17 +73,17 @@ public class Dog implements KeyListener {
 
     private void Jump() {
         if (jumping) {
-            if (time.timeCtrl(jumpingDelay)) // 점프
+            if (GameMng.getInstance().timeCtrl(jumpingDelay)) // 점프
                 y -= gap;
-            if (y < ground_y - jumpLimit) {
+            if (y < GameMng.getInstance().ground_y - jumpLimit) {
                 jumping = false;
                 landing = true;
             }
         }
         else if (landing) {
-            if (time.timeCtrl(landingDelay))       // 착지
+            if (GameMng.getInstance().timeCtrl(landingDelay))       // 착지
                 y += gap;
-            if (y == ground_y) {
+            if (y == GameMng.getInstance().ground_y) {
                 jumping = false;
                 landing = false;
             }
