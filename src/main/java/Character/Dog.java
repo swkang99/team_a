@@ -1,6 +1,7 @@
 package Character;
 
 import Main.View;
+import Manager.GameMng;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -26,8 +27,6 @@ public class Dog implements KeyListener {
 
     private Image image;
     private View view;
-
-    private TimeCtrl time = new TimeCtrl();
 
     public Dog (View view) {
         this.view = view;
@@ -64,6 +63,9 @@ public class Dog implements KeyListener {
             case KeyEvent.VK_UP:
                 if (!jumping && !landing)
                     jumping = true;
+            case KeyEvent.VK_SPACE:
+                if (!jumping && !landing)
+                    jumping = true;
                 break;
         }
         //System.out.println(x+", "+y);
@@ -71,7 +73,7 @@ public class Dog implements KeyListener {
 
     private void Jump() {
         if (jumping) {
-            if (time.timeCtrl(jumpingDelay)) // 점프
+            if (GameMng.getInstance().timeCtrl(jumpingDelay)) // 점프
                 y -= gap;
             if (y < ground_y - jumpLimit) {
                 jumping = false;
@@ -79,7 +81,7 @@ public class Dog implements KeyListener {
             }
         }
         else if (landing) {
-            if (time.timeCtrl(landingDelay))       // 착지
+            if (GameMng.getInstance().timeCtrl(landingDelay))       // 착지
                 y += gap;
             if (y == ground_y) {
                 jumping = false;

@@ -7,6 +7,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.util.Timer;
 import java.util.TimerTask;
+import Character.*;
 
 public class View extends Canvas {
     private Graphics bufferGraphics;

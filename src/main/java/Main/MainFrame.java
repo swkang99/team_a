@@ -6,7 +6,7 @@ public class MainFrame extends JFrame {
     private View view = new View();
 
     public MainFrame () {
-        setTitle("Dog Run");
+        setTitle("My Dog Run");
         setSize(800, 800);
         setResizable(false);
 
