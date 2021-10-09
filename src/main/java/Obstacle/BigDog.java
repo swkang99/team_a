@@ -19,7 +19,7 @@ public class BigDog {
     public BigDog (View view) {
         this.view = view;
         try {
-            image = ImageIO.read(new File("src/main/resources/bigdog.png"));
+            image = ImageIO.read(new File("src/main/resources/obs/bigdog.png"));
             image = image.getScaledInstance(40, 80, Image.SCALE_SMOOTH);
         } catch (IOException e) {
             e.printStackTrace();

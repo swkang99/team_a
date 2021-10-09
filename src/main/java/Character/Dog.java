@@ -31,7 +31,7 @@ public class Dog implements KeyListener {
     public Dog (View view) {
         this.view = view;
         try {
-            image = ImageIO.read(new File("src/main/resources/dog.png"));
+            image = ImageIO.read(new File("src/main/resources/chr/dog.png"));
             image = image.getScaledInstance(40, 40, Image.SCALE_SMOOTH);
         } catch (IOException e) {
             e.printStackTrace();
