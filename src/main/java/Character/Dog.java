@@ -23,12 +23,13 @@ public class Dog implements KeyListener {
     private double jumpingDelay = 0.020;
     private double landingDelay = 0.020;
 
+    private int life = 3;
+
     private boolean jumping = false;
     private boolean landing = false;
 
     private Image image;
     private View view;
-
     private Time time;
 
     public Dog (View view) {
