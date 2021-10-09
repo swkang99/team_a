@@ -1,7 +1,7 @@
 package Obstacle;
 
 import Main.View;
-import Manager.GameMng;
+import Main.Time;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -16,6 +16,8 @@ public class BigDog {
     private Image image;
     private View view;
 
+    private Time time;
+
     public BigDog (View view) {
         this.view = view;
         try {
@@ -25,7 +27,9 @@ public class BigDog {
             e.printStackTrace();
         }
         x = 700;
-        y = GameMng.getInstance().ground_y;
+        y = 460;
+
+        time = new Time();
     }
 
     public void draw(Graphics g, View view) {

@@ -1,7 +1,7 @@
 package Character;
 
 import Main.View;
-import Manager.GameMng;
+import Main.Time;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -17,6 +17,7 @@ public class Dog implements KeyListener {
     private int y;
 
     private int jumpLimit = 100;
+    private int ground_y = 500;
 
     private int gap = 20;
     private double jumpingDelay = 0.025;
@@ -28,6 +29,8 @@ public class Dog implements KeyListener {
     private Image image;
     private View view;
 
+    private Time time;
+
     public Dog (View view) {
         this.view = view;
         try {
@@ -38,7 +41,9 @@ public class Dog implements KeyListener {
         }
 
         this.x = 50;
-        this.y = GameMng.getInstance().ground_y;
+        this.y = ground_y;
+
+        time = new Time();
     }
 
     public void draw(Graphics g, View view) {
@@ -73,17 +78,17 @@ public class Dog implements KeyListener {
 
     private void Jump() {
         if (jumping) {
-            if (GameMng.getInstance().timeCtrl(jumpingDelay)) // 점프
+            if (time.timeCtrl(jumpingDelay)) // 점프
                 y -= gap;
-            if (y < GameMng.getInstance().ground_y - jumpLimit) {
+            if (y < ground_y - jumpLimit) {
                 jumping = false;
                 landing = true;
             }
         }
         else if (landing) {
-            if (GameMng.getInstance().timeCtrl(landingDelay))       // 착지
+            if (time.timeCtrl(landingDelay))       // 착지
                 y += gap;
-            if (y == GameMng.getInstance().ground_y) {
+            if (y == ground_y) {
                 jumping = false;
                 landing = false;
             }
