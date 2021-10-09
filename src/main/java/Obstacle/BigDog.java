@@ -12,11 +12,14 @@ import java.io.IOException;
 public class BigDog {
     private int x;
     private int y;
+    private int gap;
 
     private Image image;
     private View view;
 
     private Time time;
+
+    private double movingDelay = 0.05;
 
     public BigDog (View view) {
         this.view = view;
@@ -28,11 +31,23 @@ public class BigDog {
         }
         x = 700;
         y = 460;
+        gap = 10;
 
         time = new Time();
     }
 
     public void draw(Graphics g, View view) {
         g.drawImage(image, x, y, (ImageObserver) view);
+        Move();
+    }
+
+    private void Move () {
+        if (x >= 0) {
+            if (time.timeCtrl(movingDelay))
+                x -= gap;
+        }
+        else {
+            x = 800;
+        }
     }
 }

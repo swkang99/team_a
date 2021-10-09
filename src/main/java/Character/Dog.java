@@ -16,11 +16,11 @@ public class Dog implements KeyListener {
     private int x;
     private int y;
 
-    private int jumpLimit = 100;
+    private int jumpLimit = 150;
     private int ground_y = 500;
 
     private int gap = 20;
-    private double jumpingDelay = 0.025;
+    private double jumpingDelay = 0.020;
     private double landingDelay = 0.020;
 
     private boolean jumping = false;
@@ -58,11 +58,6 @@ public class Dog implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
         switch(e.getKeyCode())
         {
             case KeyEvent.VK_UP:
@@ -76,6 +71,11 @@ public class Dog implements KeyListener {
         //System.out.println(x+", "+y);
     }
 
+    @Override
+    public void keyReleased(KeyEvent e) {
+
+    }
+
     private void Jump() {
         if (jumping) {
             if (time.timeCtrl(jumpingDelay)) // 점프
@@ -86,8 +86,9 @@ public class Dog implements KeyListener {
             }
         }
         else if (landing) {
-            if (time.timeCtrl(landingDelay))       // 착지
+            if (time.timeCtrl(landingDelay)) {      // 착지
                 y += gap;
+            }
             if (y == ground_y) {
                 jumping = false;
                 landing = false;
