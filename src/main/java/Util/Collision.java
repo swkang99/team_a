@@ -5,7 +5,7 @@ public class Collision {
 
     }
 
-    public void Check (int source_x, int source_y, int source_margin_x, int source_margin_y,
+    public boolean Check (int source_x, int source_y, int source_margin_x, int source_margin_y,
                        int target_x, int target_y, int target_margin_x, int target_margin_y) {
 
         if ((source_x + source_margin_x == target_x + target_margin_x)
@@ -16,6 +16,10 @@ public class Collision {
             } catch (Exception e) {
                 e.printStackTrace();
             }*/
+            return true;
+        }
+        else {
+            return false;
         }
     }
 }

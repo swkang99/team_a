@@ -9,7 +9,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class Chr extends GameObject implements KeyListener {
-    protected int life = 3;
+    public int life = 3;
 
     private double jumpingDelay = 0.020;
     private double landingDelay = 0.020;
