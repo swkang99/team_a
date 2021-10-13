@@ -9,6 +9,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import Character.*;
 import Obstacle.BigDog;
+import Obstacle.Obstacle;
 import Util.Collision;
 
 public class View extends Canvas {
@@ -19,16 +20,16 @@ public class View extends Canvas {
     private Timer timer;
     private TimerTask timerTask;
 
-    private Dog dog;
-    private BigDog bigDog;
+    private Chr chr;
+    private Obstacle obs;
 
     private Collision collision;
 
     public View() {
-        dog = new Dog(this);
-        addKeyListener(dog);
+        chr = new Dog(this);
+        addKeyListener(chr);
 
-        bigDog = new BigDog(this);
+        obs = new BigDog(this);
 
         collision = new Collision();
 
@@ -63,10 +64,10 @@ public class View extends Canvas {
     }
 
     public void render (Graphics g) {
-        dog.draw(g, this);
-        bigDog.draw(g, View.this);
+        chr.draw(g, this);
+        obs.draw(g, this);
 
-        collision.Check(dog.pos_x, dog.pos_y, dog.width, dog.height,
-                bigDog.pos_x, bigDog.pos_y, bigDog.width, bigDog.height);
+        collision.Check(chr.pos_x, chr.pos_y, chr.width, chr.height,
+                obs.pos_x, obs.pos_y, obs.width, obs.height);
     }
 }

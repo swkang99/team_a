@@ -9,24 +9,10 @@ import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.IOException;
 
-public class BigDog {
-    public int pos_x;
-    public int pos_y;
-
-    public int width;
-    public int height;
-
-    private int gap;
-
-    private Image image;
-    private View view;
-
-    private Time time;
-
-    private double movingDelay = 0.05;
+public class BigDog extends Obstacle {
 
     public BigDog (View view) {
-        this.view = view;
+        super(view);
         width = 40;
         height = 80;
         try {
@@ -38,22 +24,5 @@ public class BigDog {
         pos_x = 700;
         pos_y = 460;
         gap = 10;
-
-        time = new Time();
-    }
-
-    public void draw(Graphics g, View view) {
-        g.drawImage(image, pos_x, pos_y, (ImageObserver) view);
-        Move();
-    }
-
-    private void Move () {
-        if (pos_x >= 0) {
-            if (time.timeCtrl(movingDelay))
-                pos_x -= gap;
-        }
-        else {
-            pos_x = 800;
-        }
     }
 }
