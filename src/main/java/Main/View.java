@@ -9,6 +9,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 import Character.*;
 import Obstacle.BigDog;
+import Obstacle.Obstacle;
+import Util.Collision;
 
 public class View extends Canvas {
     private Graphics bufferGraphics;
@@ -18,14 +20,18 @@ public class View extends Canvas {
     private Timer timer;
     private TimerTask timerTask;
 
-    private Dog dog;
-    private BigDog bidDog;
+    private Chr chr;
+    private Obstacle obs;
+
+    private Collision collision;
 
     public View() {
-        dog = new Dog(this);
-        addKeyListener(dog);
+        chr = new Dog(this);
+        addKeyListener(chr);
 
-        bidDog = new BigDog(this);
+        obs = new BigDog(this);
+
+        collision = new Collision();
 
         timer = new Timer();
         timerTask = new TimerTask() {
@@ -58,7 +64,19 @@ public class View extends Canvas {
     }
 
     public void render (Graphics g) {
-        dog.draw(g, this);
-        bidDog.draw(g, View.this);
+        chr.draw(g, this);
+        obs.draw(g, this);
+
+        boolean collisionSwitch = collision.Check(chr.getPos_x(), chr.getPos_y(), chr.getWidth(), chr.getHeight(),
+                                                  obs.getPos_x(), obs.getPos_y(), obs.getWidth(), obs.getHeight());
+
+        if (collisionSwitch) {
+            chr.life -= 1;
+            System.out.println("life: " + chr.life);
+            if (chr.life == 0)
+            {
+                System.out.println("Game Over");
+            }
+        }
     }
 }
