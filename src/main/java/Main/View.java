@@ -67,7 +67,7 @@ public class View extends Canvas {
         chr.draw(g, this);
         obs.draw(g, this);
 
-        collision.Check(chr.pos_x, chr.pos_y, chr.width, chr.height,
-                obs.pos_x, obs.pos_y, obs.width, obs.height);
+        collision.Check(chr.getPos_x(), chr.getPos_y(), chr.getWidth(), chr.getHeight(),
+                obs.getPos_x(), obs.getPos_y(), obs.getWidth(), obs.getHeight());
     }
 }

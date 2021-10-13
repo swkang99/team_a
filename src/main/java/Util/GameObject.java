@@ -6,13 +6,13 @@ import java.awt.*;
 import java.awt.image.ImageObserver;
 
 public class GameObject {
-    public int pos_x;
-    public int pos_y;
+    protected int pos_x;
+    protected int pos_y;
 
-    public int gap;
+    protected int gap;
 
-    public int width;
-    public int height;
+    protected int width;
+    protected int height;
 
     public Image image;
     public View view;
@@ -25,5 +25,21 @@ public class GameObject {
 
     public void draw(Graphics g, View view) {
         g.drawImage(image, pos_x, pos_y, (ImageObserver) view);
+    }
+
+    public int getPos_x () {
+        return pos_x;
+    }
+
+    public int getPos_y () {
+        return pos_y;
+    }
+
+    public int getWidth () {
+        return width;
+    }
+
+    public int getHeight () {
+        return height;
     }
 }
