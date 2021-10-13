@@ -1,7 +1,7 @@
 package Character;
 
 import Main.View;
-import Main.Time;
+import Util.Time;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -13,8 +13,11 @@ import java.io.IOException;
 
 public class Dog implements KeyListener {
 
-    private int x;
-    private int y;
+    public int pos_x;
+    public int pos_y;
+
+    public int width;
+    public int height;
 
     private int jumpLimit = 150;
     private int ground_y = 500;
@@ -34,21 +37,23 @@ public class Dog implements KeyListener {
 
     public Dog (View view) {
         this.view = view;
+        width = 40;
+        height = 40;
         try {
             image = ImageIO.read(new File("src/main/resources/chr/dog.png"));
-            image = image.getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+            image = image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        this.x = 50;
-        this.y = ground_y;
+        this.pos_x = 50;
+        this.pos_y = ground_y;
 
         time = new Time();
     }
 
     public void draw(Graphics g, View view) {
-        g.drawImage(image, x, y, (ImageObserver) view);
+        g.drawImage(image, pos_x, pos_y, (ImageObserver) view);
         Jump();
     }
 
@@ -80,17 +85,17 @@ public class Dog implements KeyListener {
     private void Jump() {
         if (jumping) {
             if (time.timeCtrl(jumpingDelay)) // 점프
-                y -= gap;
-            if (y < ground_y - jumpLimit) {
+                pos_y -= gap;
+            if (pos_y < ground_y - jumpLimit) {
                 jumping = false;
                 landing = true;
             }
         }
         else if (landing) {
             if (time.timeCtrl(landingDelay)) {      // 착지
-                y += gap;
+                pos_y += gap;
             }
-            if (y == ground_y) {
+            if (pos_y == ground_y) {
                 jumping = false;
                 landing = false;
             }
