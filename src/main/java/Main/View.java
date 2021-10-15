@@ -67,10 +67,10 @@ public class View extends Canvas {
         chr.draw(g, this);
         obs.draw(g, this);
 
-        boolean collisionSwitch = collision.Check(chr.getPos_x(), chr.getPos_y(), chr.getWidth(), chr.getHeight(),
-                                                  obs.getPos_x(), obs.getPos_y(), obs.getWidth(), obs.getHeight());
+        boolean trigger = collision.TriggerEnter(chr.getPos_x(), chr.getPos_y(), chr.getWidth(), chr.getHeight(),
+                                                 obs.getPos_x(), obs.getPos_y(), obs.getWidth(), obs.getHeight());
 
-        if (collisionSwitch) {
+        if (trigger) {
             chr.life -= 1;
             System.out.println("life: " + chr.life);
             if (chr.life == 0)
