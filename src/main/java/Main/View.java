@@ -10,6 +10,7 @@ import java.util.TimerTask;
 import Character.*;
 import Obstacle.BigDog;
 import Obstacle.Obstacle;
+import Util.BGScroll;
 import Util.Collision;
 
 public class View extends Canvas {
@@ -25,6 +26,8 @@ public class View extends Canvas {
 
     private Collision collision;
 
+    private BGScroll bgScroll;
+
     public View() {
         chr = new Dog(this);
         addKeyListener(chr);
@@ -32,6 +35,8 @@ public class View extends Canvas {
         obs = new BigDog(this);
 
         collision = new Collision();
+
+        bgScroll = new BGScroll(this);
 
         timer = new Timer();
         timerTask = new TimerTask() {
@@ -64,11 +69,16 @@ public class View extends Canvas {
     }
 
     public void render (Graphics g) {
+        bgScroll.draw(g, this);
         chr.draw(g, this);
         obs.draw(g, this);
 
+        CollisionCheck();
+    }
+
+    public void CollisionCheck () {
         boolean trigger = collision.TriggerEnter(chr.getPos_x(), chr.getPos_y(), chr.getWidth(), chr.getHeight(),
-                                                 obs.getPos_x(), obs.getPos_y(), obs.getWidth(), obs.getHeight());
+                obs.getPos_x(), obs.getPos_y(), obs.getWidth(), obs.getHeight());
 
         if (trigger) {
             chr.life -= 1;
