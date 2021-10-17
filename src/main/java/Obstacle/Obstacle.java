@@ -7,7 +7,7 @@ import java.awt.*;
 
 public class Obstacle extends GameObject {
 
-    private double movingDelay = 0.05;
+    private double movingDelay = 0.03;
 
     public Obstacle (View view) {
         super(view);
