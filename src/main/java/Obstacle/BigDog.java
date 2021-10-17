@@ -23,6 +23,6 @@ public class BigDog extends Obstacle {
         }
         pos_x = 700;
         pos_y = 460;
-        gap = 10;
+        gap = 5;
     }
 }

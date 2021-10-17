@@ -5,9 +5,12 @@ import javax.swing.JFrame;
 public class MainFrame extends JFrame {
     private View view = new View();
 
+    public static int frameWidth = 800;
+    public static int frameHeight = 800;
+
     public MainFrame () {
         setTitle("My Dog Run");
-        setSize(800, 800);
+        setSize(frameWidth, frameHeight);
         setResizable(false);
 
         add(view);
