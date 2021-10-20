@@ -17,7 +17,7 @@ public class Chr extends GameObject implements KeyListener {
     private boolean jumping = false;
     private boolean landing = false;
 
-    private int jumpLimit = 150;
+    private int jumpLimit = 200;
     protected int ground_y = 500;
 
     public Chr(View view) {
@@ -58,7 +58,7 @@ public class Chr extends GameObject implements KeyListener {
 
      protected void Jump() {
         if (jumping) {
-            if (time.timeCtrl(jumpingDelay)) // 점프
+            if (time.timeCtrl(jumpingDelay)) // �젏�봽
                 pos_y -= gap;
             if (pos_y < ground_y - jumpLimit) {
                 jumping = false;
@@ -66,7 +66,7 @@ public class Chr extends GameObject implements KeyListener {
             }
         }
         else if (landing) {
-            if (time.timeCtrl(landingDelay)) {      // 착지
+            if (time.timeCtrl(landingDelay)) {      // 李⑹�
                 pos_y += gap;
             }
             if (pos_y == ground_y) {
