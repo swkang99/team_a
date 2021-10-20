@@ -8,6 +8,8 @@ import java.awt.Image;
 import java.util.Timer;
 import java.util.TimerTask;
 import Character.*;
+import Item.DogFood;
+import Item.Item;
 import Obstacle.BigDog;
 import Obstacle.Obstacle;
 import Util.BGScroll;
@@ -23,6 +25,7 @@ public class View extends Canvas {
 
     private Chr chr;
     private Obstacle obs;
+    private Item item;
 
     private Collision collision;
 
@@ -33,6 +36,8 @@ public class View extends Canvas {
         addKeyListener(chr);
 
         obs = new BigDog(this);
+
+        item = new DogFood(this);
 
         collision = new Collision();
 
@@ -70,23 +75,38 @@ public class View extends Canvas {
 
     public void render (Graphics g) {
         bgScroll.draw(g, this);
+
         chr.draw(g, this);
+
         obs.draw(g, this);
+
+        item.draw(g, this);
 
         CollisionCheck();
     }
 
     public void CollisionCheck () {
-        boolean trigger = collision.TriggerEnter(chr.getPos_x(), chr.getPos_y(), chr.getWidth(), chr.getHeight(),
+        boolean obsTrigger = collision.TriggerEnter(chr.getPos_x(), chr.getPos_y(), chr.getWidth(), chr.getHeight(),
                 obs.getPos_x(), obs.getPos_y(), obs.getWidth(), obs.getHeight());
 
-        if (trigger) {
+        // obstacle trigger
+        if (obsTrigger) {
             chr.life -= 1;
             System.out.println("life: " + chr.life);
             if (chr.life == 0)
             {
                 System.out.println("Game Over");
             }
+        }
+
+        boolean itemTrigger = collision.TriggerEnter(chr.getPos_x(), chr.getPos_y(), chr.getWidth(), chr.getHeight(),
+                item.getPos_x(), item.getPos_y(), item.getWidth(), item.getHeight());
+
+        // item trigger
+        if (itemTrigger) {
+
+            System.out.println("life: " + chr.life);
+
         }
     }
 }
