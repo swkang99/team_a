@@ -15,7 +15,8 @@ import Obstacle.Obstacle;
 import Util.BGScroll;
 import Util.Collision;
 
-public class View extends Canvas {
+public class View extends Canvas
+{
     private Graphics bufferGraphics;
     private Image offscreen;
     private Dimension dim;
@@ -27,11 +28,13 @@ public class View extends Canvas {
     private Obstacle obs;
     private Item item;
 
-    private Collision collision;
+    private Collision obsCollision;
+    private Collision itemCollision;
 
     private BGScroll bgScroll;
 
-    public View() {
+    public View()
+    {
         chr = new Dog(this);
         addKeyListener(chr);
 
@@ -39,7 +42,8 @@ public class View extends Canvas {
 
         item = new DogFood(this);
 
-        collision = new Collision();
+        obsCollision = new Collision();
+        itemCollision = new Collision();
 
         bgScroll = new BGScroll(this);
 
@@ -52,14 +56,16 @@ public class View extends Canvas {
         timer.schedule(timerTask, 0, 1);
     }
 
-    public void initBuffered() {
+    public void initBuffered()
+    {
         dim = getSize();
         setBackground(Color.white);
         offscreen = createImage(dim.width, dim.height);
         bufferGraphics = offscreen.getGraphics();
     }
 
-    public void paint(Graphics g) {
+    public void paint(Graphics g)
+    {
         //super.paint(g);
         bufferGraphics.clearRect(0, 0, dim.width, dim.height);
         render(bufferGraphics);
@@ -67,13 +73,15 @@ public class View extends Canvas {
     }
 
     @Override
-    public void update(Graphics g) {
+    public void update(Graphics g)
+    {
         // TODO Auto-generated method stub
         //super.update(g);
         paint(g);
     }
 
-    public void render (Graphics g) {
+    public void render (Graphics g)
+    {
         bgScroll.draw(g, this);
 
         chr.draw(g, this);
@@ -82,15 +90,18 @@ public class View extends Canvas {
 
         item.draw(g, this);
 
-        CollisionCheck();
+        ObsCollisionCheck();
+        ItemCollisionCheck();
     }
 
-    public void CollisionCheck () {
-        boolean obsTrigger = collision.TriggerEnter(chr.getPos_x(), chr.getPos_y(), chr.getWidth(), chr.getHeight(),
-                obs.getPos_x(), obs.getPos_y(), obs.getWidth(), obs.getHeight());
+    public void ObsCollisionCheck ()
+    {
+        boolean obsTrigger = obsCollision.TriggerEnter(chr.getPos_x(), chr.getPos_y(), chr.getMargin_x(), chr.getMargin_y(),
+                                                    obs.getPos_x(), obs.getPos_y(), obs.getMargin_x(), obs.getMargin_y());
 
         // obstacle trigger
-        if (obsTrigger) {
+        if (obsTrigger)
+        {
             chr.life -= 1;
             System.out.println("life: " + chr.life);
             if (chr.life == 0)
@@ -98,14 +109,19 @@ public class View extends Canvas {
                 System.out.println("Game Over");
             }
         }
+    }
 
-        boolean itemTrigger = collision.TriggerEnter(chr.getPos_x(), chr.getPos_y(), chr.getWidth(), chr.getHeight(),
-                item.getPos_x(), item.getPos_y(), item.getWidth(), item.getHeight());
-
+    public void ItemCollisionCheck ()
+    {
+        boolean itemTrigger = itemCollision.TriggerEnter(chr.getPos_x(), chr.getPos_y(), chr.getMargin_x(), chr.getMargin_y(),
+                                                     item.getPos_x(), item.getPos_y(), item.getWidth(), item.getHeight());
+        //System.out.println("chr checking: " + chr.getPos_x() + ", " + chr.getPos_y());
+        //System.out.println("item checking: " + item.getPos_x() + ", " + item.getPos_y());
         // item trigger
-        if (itemTrigger) {
+        if (itemTrigger)
+        {
 
-            System.out.println("life: " + chr.life);
+            System.out.println("Item get: " + item.toString());
 
         }
     }
