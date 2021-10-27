@@ -8,17 +8,22 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
-public class BGScroll extends GameObject{
+public class BGScroll extends GameObject
+{
 
     private double drawDelay = 0.001;
     private int pos_x2;
 
-    public BGScroll (View view) {
+    public BGScroll (View view)
+    {
         super(view);
-        try {
+        try
+        {
             image = ImageIO.read(new File("src/main/resources/bg/bg1.png"));
             image = image.getScaledInstance(MainFrame.frameWidth * 2, MainFrame.frameHeight, Image.SCALE_SMOOTH);
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             e.printStackTrace();
         }
         gap = 5;
@@ -27,14 +32,17 @@ public class BGScroll extends GameObject{
         pos_x2 = image.getWidth(null);
     }
 
-    public void draw (Graphics g, View view) {
+    public void draw (Graphics g, View view)
+    {
         Scroll();
         super.draw(g, view);
         g.drawImage(image, pos_x2, pos_y, view);
     }
 
-    public void Scroll () {
-        if (time.timeCtrl(drawDelay)) {
+    public void Scroll ()
+    {
+        if (time.timeCtrl(drawDelay))
+        {
             pos_x -= gap;
             pos_x2 -= gap;
 

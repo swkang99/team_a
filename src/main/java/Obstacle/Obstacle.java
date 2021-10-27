@@ -5,25 +5,31 @@ import Util.GameObject;
 
 import java.awt.*;
 
-public class Obstacle extends GameObject {
+public class Obstacle extends GameObject
+{
 
     private double movingDelay = 0.03;
 
-    public Obstacle (View view) {
+    public Obstacle (View view)
+    {
         super(view);
     }
 
-    public void draw (Graphics g, View view) {
+    public void draw (Graphics g, View view)
+    {
         super.draw(g, view);
         Move();
     }
 
-    private void Move () {
-        if (pos_x >= 0) {
+    private void Move ()
+    {
+        if (pos_x >= 0)
+        {
             if (time.timeCtrl(movingDelay))
                 pos_x -= gap;
         }
-        else {
+        else
+        {
             pos_x = 800;
         }
     }
