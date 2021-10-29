@@ -8,9 +8,9 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
-public class Bolad extends Obstacle
+public class Bollard extends Obstacle
 {
-    public Bolad(View view)
+    public Bollard(View view)
     {
         super(view);
 
