@@ -1,7 +1,6 @@
-package Obstacle;
+package Character;
 
 import Main.View;
-import Util.Time;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -9,30 +8,29 @@ import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.IOException;
 
-public class BigDog extends Obstacle
+public class Pomeranian extends Chr
 {
-    public BigDog (View view)
+    public Pomeranian(View view)
     {
         super(view);
 
-        pos_x = 700;
-        pos_y = 460;
-        gap = 5;
-
-        width = 40;
+        width = 80;
         height = 80;
 
-        margin_x = 0;
-        margin_y = -25;
+        margin_x = width;
+        margin_y = height;
 
         try
         {
-            image = ImageIO.read(new File("src/main/resources/obs/bigdog.png"));
+            image = ImageIO.read(new File("src/main/resources/chr/Po/basic.png"));
             image = image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
         }
         catch (IOException e)
         {
             e.printStackTrace();
         }
+
+        pos_x = 50;
+        pos_y = super.ground_y;
     }
 }

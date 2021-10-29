@@ -19,8 +19,8 @@ public class DogFood extends Item
         width = 40;
         height = 40;
 
-        margin_x = width;
-        margin_y = height;
+        margin_x = width + 20;
+        margin_y = height + 20;
 
         try
         {

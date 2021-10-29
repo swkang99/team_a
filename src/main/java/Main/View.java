@@ -38,7 +38,7 @@ public class View extends Canvas
 
     public View()
     {
-        chr = new Dog(this);
+        chr = new Pomeranian(this);
         addKeyListener(chr);
 
         obs = new BigDog(this);

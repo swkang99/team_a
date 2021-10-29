@@ -18,11 +18,11 @@ public class Chr extends GameObject implements KeyListener
     private boolean jumping = false;
     private boolean landing = false;
 
-    private int jumpLimit = 200;
+    private int jumpLimit = 260;
     protected int ground_y = 500;
 
     protected boolean invincible = false;
-    protected double invincibleTime = 6;
+    protected double invincibleTime = 7;
 
     public Chr(View view)
     {

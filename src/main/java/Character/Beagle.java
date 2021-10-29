@@ -4,25 +4,24 @@ import Main.View;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.IOException;
 
-public class Dog extends Chr
+public class Beagle extends Chr
 {
-    public Dog (View view)
+    public Beagle(View view)
     {
         super(view);
 
-        width = 40;
-        height = 40;
+        width = 80;
+        height = 80;
 
         margin_x = width;
         margin_y = height;
 
         try
         {
-            image = ImageIO.read(new File("src/main/resources/chr/dog.png"));
+            image = ImageIO.read(new File("src/main/resources/chr/Bi/basic.png"));
             image = image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
         }
         catch (IOException e)
