@@ -13,11 +13,7 @@ public class Beagle extends Chr
     {
         super(view);
 
-        width = 80;
-        height = 80;
 
-        margin_x = width;
-        margin_y = height;
 
         try
         {

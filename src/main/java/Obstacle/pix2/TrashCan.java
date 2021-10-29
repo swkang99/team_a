@@ -1,34 +1,37 @@
-package Character;
+package Obstacle.pix2;
 
 import Main.View;
+import Obstacle.Obstacle;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.IOException;
 
-public class Pomeranian extends Chr
+public class TrashCan extends Obstacle
 {
-    public Pomeranian(View view)
+    public TrashCan(View view)
     {
         super(view);
 
-        width = 40;
-        height = 40;
+        pos_x = 700;
+        pos_y = 460;
+        gap = 5;
 
-        margin_x = width;
-        margin_y = height;
+        width = 40;
+        height = width * 2;
+
+        margin_x = 0;
+        margin_y = -25;
 
         try
         {
-            image = ImageIO.read(new File("src/main/resources/chr/Po/basic.png"));
+            image = ImageIO.read(new File("src/main/resources/obs/2 pix/trash.png"));
             image = image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
         }
         catch (IOException e)
         {
             e.printStackTrace();
         }
-
     }
 }

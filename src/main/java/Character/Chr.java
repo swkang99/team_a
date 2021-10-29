@@ -28,6 +28,15 @@ public class Chr extends GameObject implements KeyListener
     {
         super(view);
         gap = 20;
+
+        width = 40;
+        height = width;
+
+        margin_x = width;
+        margin_y = height;
+
+        pos_x = 50;
+        pos_y = ground_y;
     }
 
     @Override

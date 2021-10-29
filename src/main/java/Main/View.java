@@ -10,7 +10,7 @@ import java.util.TimerTask;
 import Character.*;
 import Item.DogFood;
 import Item.Item;
-import Obstacle.BigDog;
+import Obstacle.pix2.BigDog;
 import Obstacle.Obstacle;
 import Util.BGScroll;
 import Util.Collision;
