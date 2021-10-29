@@ -11,7 +11,7 @@ import java.io.IOException;
 public class BGScroll extends GameObject
 {
 
-    private double drawDelay = 0.001;
+    private double drawDelay = 0.01;
     private int pos_x2;
 
     public BGScroll (View view)
@@ -19,7 +19,7 @@ public class BGScroll extends GameObject
         super(view);
         try
         {
-            image = ImageIO.read(new File("src/main/resources/bg/bg1.png"));
+            image = ImageIO.read(new File("src/main/resources/bg/ingame.png"));
             image = image.getScaledInstance(MainFrame.frameWidth * 2, MainFrame.frameHeight, Image.SCALE_SMOOTH);
         }
         catch (IOException e)
