@@ -1,19 +1,24 @@
 package Util;
 
-public class Time {
+public class Time
+{
     private long currentTime;
 
-    public Time () {
+    public Time ()
+    {
         currentTime = System.currentTimeMillis();
     }
 
-    public boolean timeCtrl(double delay) {
+    public boolean timeCtrl(double delay)
+    {
         long systemTime =  System.currentTimeMillis();
-        if (currentTime + delay * 1000 <= systemTime) {
+        if (currentTime + delay * 1000 <= systemTime)
+        {
             currentTime = System.currentTimeMillis();
             return true;
         }
-        else {
+        else
+        {
             return false;
         }
     }

@@ -14,7 +14,7 @@ public class DogFood extends Item
         super(view);
 
         pos_x = 750;
-        pos_y = 370;
+        pos_y = 300;
 
         width = 40;
         height = 40;
