@@ -18,13 +18,25 @@ public class Chr extends GameObject implements KeyListener
     private boolean jumping = false;
     private boolean landing = false;
 
-    private int jumpLimit = 200;
+    private int jumpLimit = 260;
     protected int ground_y = 500;
+
+    protected boolean invincible = false;
+    protected double invincibleTime = 7;
 
     public Chr(View view)
     {
         super(view);
         gap = 20;
+
+        width = 40;
+        height = width;
+
+        margin_x = width;
+        margin_y = height;
+
+        pos_x = 50;
+        pos_y = ground_y;
     }
 
     @Override
@@ -86,5 +98,20 @@ public class Chr extends GameObject implements KeyListener
                 landing = false;
             }
         }
+    }
+
+    public boolean isInvincible()
+    {
+        return invincible;
+    }
+
+    public void setInvincible(boolean val)
+    {
+        invincible = val;
+    }
+
+    public double getInvincibleTime()
+    {
+        return invincibleTime;
     }
 }

@@ -10,10 +10,11 @@ import java.util.TimerTask;
 import Character.*;
 import Item.DogFood;
 import Item.Item;
-import Obstacle.BigDog;
+import Obstacle.pix2.BigDog;
 import Obstacle.Obstacle;
 import Util.BGScroll;
 import Util.Collision;
+import Util.Time;
 
 public class View extends Canvas
 {
@@ -33,9 +34,11 @@ public class View extends Canvas
 
     private BGScroll bgScroll;
 
+    private Time time;
+
     public View()
     {
-        chr = new Dog(this);
+        chr = new Pomeranian(this);
         addKeyListener(chr);
 
         obs = new BigDog(this);
@@ -46,6 +49,8 @@ public class View extends Canvas
         itemCollision = new Collision();
 
         bgScroll = new BGScroll(this);
+
+        time = new Time();
 
         timer = new Timer();
         timerTask = new TimerTask() {
@@ -97,16 +102,29 @@ public class View extends Canvas
     public void ObsCollisionCheck ()
     {
         boolean obsTrigger = obsCollision.TriggerEnter(chr.getPos_x(), chr.getPos_y(), chr.getMargin_x(), chr.getMargin_y(),
-                                                    obs.getPos_x(), obs.getPos_y(), obs.getMargin_x(), obs.getMargin_y());
+                                                       obs.getPos_x(), obs.getPos_y(), obs.getMargin_x(), obs.getMargin_y());
 
         // obstacle trigger
-        if (obsTrigger)
+        if (obsTrigger && !chr.isInvincible())
         {
             chr.life -= 1;
             System.out.println("life: " + chr.life);
+            chr.setInvincible(true);
+            System.out.println(chr.isInvincible());
+
             if (chr.life == 0)
             {
                 System.out.println("Game Over");
+            }
+        }
+
+        // invincible check
+        if (chr.isInvincible())
+        {
+            if (time.timeCtrl(chr.getInvincibleTime()))
+            {
+                chr.setInvincible(false);
+                System.out.println(chr.isInvincible());
             }
         }
     }

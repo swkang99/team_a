@@ -1,17 +1,16 @@
-package Obstacle;
+package Obstacle.pix1;
 
 import Main.View;
-import Util.Time;
+import Obstacle.Obstacle;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.IOException;
 
-public class BigDog extends Obstacle
+public class Fireplug extends Obstacle
 {
-    public BigDog (View view)
+    public Fireplug(View view)
     {
         super(view);
 
@@ -20,14 +19,14 @@ public class BigDog extends Obstacle
         gap = 5;
 
         width = 40;
-        height = 80;
+        height = width;
 
-        margin_x = width;
-        margin_y = height;
+        margin_x = 0;
+        margin_y = -25;
 
         try
         {
-            image = ImageIO.read(new File("src/main/resources/obs/bigdog.png"));
+            image = ImageIO.read(new File("src/main/resources/obs/1 pix/sh.png"));
             image = image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
         }
         catch (IOException e)

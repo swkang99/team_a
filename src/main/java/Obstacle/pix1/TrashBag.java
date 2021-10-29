@@ -1,30 +1,32 @@
-package Item;
+package Obstacle.pix1;
 
 import Main.View;
+import Obstacle.Obstacle;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
-public class DogFood extends Item
+public class TrashBag extends Obstacle
 {
-    public DogFood (View view)
+    public TrashBag(View view)
     {
         super(view);
 
-        pos_x = 750;
-        pos_y = 300;
+        pos_x = 700;
+        pos_y = 460;
+        gap = 5;
 
         width = 40;
-        height = 40;
+        height = width;
 
-        margin_x = width + 20;
-        margin_y = height + 20;
+        margin_x = 0;
+        margin_y = -25;
 
         try
         {
-            image = ImageIO.read(new File("src/main/resources/item/dogfood.png"));
+            image = ImageIO.read(new File("src/main/resources/obs/1 pix/trash.png"));
             image = image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
         }
         catch (IOException e)
