@@ -1,4 +1,4 @@
-package Item;
+package Object.MovingObject.Item;
 
 import Main.View;
 
@@ -12,9 +12,6 @@ public class DogFood extends Item
     public DogFood (View view)
     {
         super(view);
-
-        pos_x = 750;
-        pos_y = 300;
 
         width = 40;
         height = 40;

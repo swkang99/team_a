@@ -1,4 +1,4 @@
-package Item;
+package Object.Character;
 
 import Main.View;
 
@@ -7,24 +7,15 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
-public class Water extends Item
+public class Maltese extends Chr
 {
-    public Water (View view)
+    public Maltese(View view)
     {
         super(view);
 
-        pos_x = 750;
-        pos_y = 300;
-
-        width = 40;
-        height = 40;
-
-        margin_x = width + 20;
-        margin_y = height + 20;
-
         try
         {
-            image = ImageIO.read(new File("src/main/resources/item/water.png"));
+            image = ImageIO.read(new File("src/main/resources/chr/Mal/basic.png"));
             image = image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
         }
         catch (IOException e)

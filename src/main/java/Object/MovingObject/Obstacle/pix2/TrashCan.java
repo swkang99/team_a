@@ -1,34 +1,30 @@
-package Obstacle.pix2;
+package Object.MovingObject.Obstacle.pix2;
 
 import Main.View;
-import Obstacle.Obstacle;
-import Util.Time;
+import Object.MovingObject.Obstacle.Obstacle;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.IOException;
 
-public class BigDog extends Obstacle
+public class TrashCan extends ObstaclePix2
 {
-    public BigDog (View view)
+    public TrashCan(View view)
     {
         super(view);
 
-        pos_x = 700;
-        pos_y = 460;
         gap = 5;
 
         width = 40;
-        height = width * 2;
+        height = 40 * 2;
 
         margin_x = 0;
         margin_y = -25;
 
         try
         {
-            image = ImageIO.read(new File("src/main/resources/obs/2 pix/bo.png"));
+            image = ImageIO.read(new File("src/main/resources/obs/2 pix/trash.png"));
             image = image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
         }
         catch (IOException e)

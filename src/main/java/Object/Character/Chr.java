@@ -1,8 +1,8 @@
-package Character;
+package Object.Character;
 
+import Main.MainFrame;
 import Main.View;
-import Util.GameObject;
-import Util.Time;
+import Object.GameObject;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -18,9 +18,6 @@ public class Chr extends GameObject implements KeyListener
     private boolean jumping = false;
     private boolean landing = false;
 
-    private int jumpLimit = 260;
-    protected int ground_y = 500;
-
     protected boolean invincible = false;
     protected double invincibleTime = 7;
 
@@ -30,13 +27,13 @@ public class Chr extends GameObject implements KeyListener
         gap = 20;
 
         width = 40;
-        height = width;
+        height = 40;
 
         margin_x = width;
         margin_y = height;
 
         pos_x = 50;
-        pos_y = ground_y;
+        pos_y = MainFrame.ground_y;
     }
 
     @Override
@@ -80,7 +77,7 @@ public class Chr extends GameObject implements KeyListener
         {
             if (time.timeCtrl(jumpingDelay))
                 pos_y -= gap;
-            if (pos_y < ground_y - jumpLimit)
+            if (pos_y < MainFrame.ground_y - MainFrame.jumpLimit)
             {
                 jumping = false;
                 landing = true;
@@ -92,7 +89,7 @@ public class Chr extends GameObject implements KeyListener
             {
                 pos_y += gap;
             }
-            if (pos_y == ground_y)
+            if (pos_y == MainFrame.ground_y)
             {
                 jumping = false;
                 landing = false;
