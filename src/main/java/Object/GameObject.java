@@ -1,6 +1,8 @@
-package Util;
+package Object;
 
+import Main.MainFrame;
 import Main.View;
+import Util.Time;
 
 import java.awt.*;
 import java.awt.image.ImageObserver;
@@ -15,8 +17,8 @@ public class GameObject
     protected int width;            // width of image
     protected int height;           // height of image
 
-    protected int margin_x;         // x value of margin for collision check
-    protected int margin_y;         // y value of margin for collision check
+    protected int margin_x;         // x value of margin for checking collision
+    protected int margin_y;         // y value of margin for checking collision
 
     public Image image;
     public View view;
@@ -24,6 +26,8 @@ public class GameObject
 
     public GameObject (View view)
     {
+        pos_x = -MainFrame.frameWidth;
+        pos_y = -MainFrame.frameHeight;
         this.view = view;
         time = new Time();
     }

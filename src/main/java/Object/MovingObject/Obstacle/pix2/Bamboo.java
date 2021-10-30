@@ -1,32 +1,30 @@
-package Obstacle.flyingpix1;
+package Object.MovingObject.Obstacle.pix2;
 
 import Main.View;
-import Obstacle.Obstacle;
+import Object.MovingObject.Obstacle.Obstacle;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
-public class Bird extends Obstacle
+public class Bamboo extends Obstacle
 {
-    public Bird(View view)
+    public Bamboo(View view)
     {
         super(view);
 
-        pos_x = 700;
-        pos_y = 460;
         gap = 5;
 
         width = 40;
-        height = width;
+        height = 40 * 2;
 
         margin_x = 0;
         margin_y = -25;
 
         try
         {
-            image = ImageIO.read(new File("src/main/resources/obs/flying 1 pix/bird.png"));
+            image = ImageIO.read(new File("src/main/resources/obs/2 pix/bamboo.png"));
             image = image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
         }
         catch (IOException e)

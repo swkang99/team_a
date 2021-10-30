@@ -1,5 +1,6 @@
-package Character;
+package Object.Character;
 
+import Main.MainFrame;
 import Main.View;
 
 import javax.imageio.ImageIO;
@@ -13,8 +14,6 @@ public class Beagle extends Chr
     {
         super(view);
 
-
-
         try
         {
             image = ImageIO.read(new File("src/main/resources/chr/Bi/basic.png"));
@@ -24,8 +23,5 @@ public class Beagle extends Chr
         {
             e.printStackTrace();
         }
-
-        pos_x = 50;
-        pos_y = super.ground_y;
     }
 }

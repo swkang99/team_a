@@ -7,25 +7,17 @@ enum CHARACTER
     Beagle
 }
 
-enum OBSTACLE_PIX1
+enum OBSTACLE
 {
+    Bird,
     Bollard,
     DogHouse,
     FirePlug,
-    TrashBag
-}
-
-enum OBSTACLE_PIX2
-{
+    TrashBag,
     Bamboo,
     BigDog,
     Sign,
     TrashCan
-}
-
-enum OBSTACLE_FLYING_PIX1
-{
-    Bird
 }
 
 enum ITEM

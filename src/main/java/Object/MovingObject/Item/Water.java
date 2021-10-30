@@ -1,4 +1,4 @@
-package Item;
+package Object.MovingObject.Item;
 
 import Main.View;
 
@@ -7,14 +7,11 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
-public class DogBone extends Item
+public class Water extends Item
 {
-    public DogBone (View view)
+    public Water (View view)
     {
         super(view);
-
-        pos_x = 750;
-        pos_y = 300;
 
         width = 40;
         height = 40;
@@ -24,7 +21,7 @@ public class DogBone extends Item
 
         try
         {
-            image = ImageIO.read(new File("src/main/resources/item/dogbone.png"));
+            image = ImageIO.read(new File("src/main/resources/item/water.png"));
             image = image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
         }
         catch (IOException e)
