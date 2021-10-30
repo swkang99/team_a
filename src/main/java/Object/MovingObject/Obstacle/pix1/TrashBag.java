@@ -8,7 +8,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
-public class TrashBag extends Obstacle
+public class TrashBag extends ObstaclePix1
 {
     public TrashBag(View view)
     {

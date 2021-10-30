@@ -31,7 +31,9 @@ public class InGame
     private Collision obsCollision;
     private Collision itemCollision;
 
-    private double makingDelay = 3;
+    private double makingDelay = 2.3;
+
+    Random rand = new Random();
 
     public InGame(View view)
     {
@@ -144,26 +146,32 @@ public class InGame
         if (itemTrigger)
         {
 
-            System.out.println("Item get: " + item.toString());
+            System.out.println("Item get: " + item[index].toString());
 
         }
     }
 
     private void MakeMovingObject ()
     {
-        Random rand = new Random();
-
         switch (rand.nextInt(2))
         {
             case 0:
-            // Making Item
-            int rand_item = rand.nextInt(item.length);
-            item[rand_item].Activate();
+                MakeItem();
 
             case 1:
-            // Making Obs
-            int rand_obs = rand.nextInt(obs.length);
-            obs[rand_obs].Activate();
+                MakeObs();
         }
+    }
+
+    private void MakeItem ()
+    {
+        int rand_item = rand.nextInt(item.length);
+        item[rand_item].Activate();
+    }
+
+    private void MakeObs ()
+    {
+        int rand_obs = rand.nextInt(obs.length);
+        obs[rand_obs].Activate();
     }
 }

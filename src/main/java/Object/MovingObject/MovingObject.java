@@ -9,12 +9,14 @@ import java.util.Random;
 public class MovingObject extends GameObject
 {
     protected double movingDelay;
-    private boolean isEnable = false;
-    private final int[] obj_pos_y = new int[3];    // moving object will appear 3 value of y
+    protected boolean isEnable = false;
+    protected final int[] obj_pos_y = new int[3];    // moving object will appear 3 value of y
 
     public MovingObject (View view)
     {
         super(view);
+
+        movingDelay = super.gameSpeed;
 
         // y value of moving objects
         obj_pos_y[0] = MainFrame.jumpLimit;

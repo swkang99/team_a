@@ -8,7 +8,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
-public class Bird extends Obstacle
+public class Bird extends ObstacleFlyingPix1
 {
     public Bird(View view)
     {

@@ -8,7 +8,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
-public class BigDog extends Obstacle
+public class BigDog extends ObstaclePix2
 {
     public BigDog (View view)
     {

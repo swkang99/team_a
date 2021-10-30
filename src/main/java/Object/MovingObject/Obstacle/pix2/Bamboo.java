@@ -8,7 +8,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
-public class Bamboo extends Obstacle
+public class Bamboo extends ObstaclePix2
 {
     public Bamboo(View view)
     {

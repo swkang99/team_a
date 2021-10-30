@@ -12,7 +12,7 @@ import Object.GameObject;
 public class BGScroll extends GameObject
 {
 
-    private double drawDelay = 0.018;
+    private double drawDelay = super.gameSpeed;
     private int pos_x2;
 
     public BGScroll (View view)

@@ -8,7 +8,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
-public class FirePlug extends Obstacle
+public class FirePlug extends ObstaclePix1
 {
     public FirePlug(View view)
     {

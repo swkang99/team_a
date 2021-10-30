@@ -8,13 +8,11 @@ import java.awt.*;
 
 public class Item extends MovingObject
 {
-    private boolean enable = false;
-
     public Item(View view)
     {
         super(view);
-        gap = 2;
-        movingDelay = 0.02;
+        gap = 3;
+        movingDelay = super.gameSpeed;
     }
 
     public void draw(Graphics g, View view)

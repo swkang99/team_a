@@ -8,7 +8,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
-public class Sign extends Obstacle
+public class Sign extends ObstaclePix2
 {
     public Sign(View view)
     {

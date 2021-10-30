@@ -8,7 +8,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
-public class Bollard extends Obstacle
+public class Bollard extends ObstaclePix1
 {
     public Bollard(View view)
     {

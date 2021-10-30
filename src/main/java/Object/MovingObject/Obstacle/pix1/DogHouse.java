@@ -8,7 +8,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
-public class DogHouse extends Obstacle
+public class DogHouse extends ObstaclePix1
 {
     public DogHouse(View view)
     {

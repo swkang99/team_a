@@ -8,12 +8,10 @@ import java.awt.*;
 
 public class Obstacle extends MovingObject
 {
-    private boolean enable = false;
-
     public Obstacle (View view)
     {
         super(view);
-        movingDelay = 0.017;
+        movingDelay = 0.01;
     }
 
     public void draw (Graphics g, View view)
