@@ -21,8 +21,8 @@ import java.util.Random;
 public class InGame
 {
     private Chr chr;
-    private Obstacle[] obs = new Obstacle[OBSTACLE.values().length * 2];
-    private Item[] item = new Item[ITEM.values().length * 2];
+    private Obstacle[] obs;
+    private Item[] item;
 
     private BGScroll bgScroll;
 
@@ -31,8 +31,8 @@ public class InGame
     private Collision obsCollision;
     private Collision itemCollision;
 
-    private double makingDelay = 2;
-    private double invincibleTimeByObs = 5.5;
+    private double makingDelay;
+    private double invincibleTimeByObs;
 
     public static int score = 0;
 
@@ -48,6 +48,9 @@ public class InGame
         bgScroll = new BGScroll(view);
 
         time = new Time();
+
+        makingDelay = 1.7;
+        invincibleTimeByObs = 3;
     }
 
     private void InitObjects(View view)
@@ -55,6 +58,8 @@ public class InGame
         // Character
         chr = new Pomeranian(view);
         view.addKeyListener(chr);
+
+        obs = new Obstacle[OBSTACLE.values().length * 2];
 
         // Flying obs pix 1
         obs[0] = new Bird(view);
@@ -79,6 +84,8 @@ public class InGame
         obs[15] = new Sign(view);
         obs[16] = new TrashCan(view);
         obs[17] = new TrashCan(view);
+
+        item = new Item[ITEM.values().length * 2];
 
         // item
         for (int i = 0; i < ITEM.values().length; i++)
@@ -132,7 +139,6 @@ public class InGame
 
         if (time.timeCtrl(makingDelay))
         {
-            System.out.println("making");
             MakeMovingObject();
         }
     }
@@ -148,7 +154,7 @@ public class InGame
             chr.nowLife -= 1;
             System.out.println("life: " + chr.nowLife);
             chr.setInvincible(invincibleTimeByObs);
-            System.out.println(chr.isInvincible());
+            System.out.println("invincible state: " + chr.isInvincible());
 
             if (chr.nowLife == 0)
             {
@@ -170,9 +176,8 @@ public class InGame
     private void CheckItemCollision (int index)
     {
         boolean itemTrigger = itemCollision.TriggerEnter(chr.getPos_x(), chr.getPos_y(), chr.getMargin_x(), chr.getMargin_y(),
-                item[index].getPos_x(), item[index].getPos_y(), item[index].getWidth(), item[index].getHeight());
-        //System.out.println("chr checking: " + chr.getPos_x() + ", " + chr.getPos_y());
-        //System.out.println("item checking: " + item.getPos_x() + ", " + item.getPos_y());
+                item[index].getPos_x(), item[index].getPos_y(), item[index].getMargin_x(), item[index].getMargin_y());
+
         // item trigger
         if (itemTrigger)
         {

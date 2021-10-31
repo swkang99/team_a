@@ -18,8 +18,8 @@ public class Soap extends Item
         width = 40;
         height = 40;
 
-        margin_x = width + 20;
-        margin_y = height + 20;
+        margin_x = width - 20;
+        margin_y = height - 35;
 
         try
         {
@@ -39,5 +39,7 @@ public class Soap extends Item
 
         if (chr.nowLife < chr.maxLife)
             chr.nowLife += 1;
+
+        super.DisableItem();
     }
 }

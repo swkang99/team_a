@@ -12,6 +12,14 @@ public class ObstaclePix1 extends Obstacle
     public ObstaclePix1(View view)
     {
         super(view);
+
+        gap = 5;
+
+        width = 70;
+        height = 70;
+
+        margin_x = width - 50;
+        margin_y = height - 50;
     }
 
     public void draw (Graphics g, View view)

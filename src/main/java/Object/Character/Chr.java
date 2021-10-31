@@ -10,31 +10,43 @@ import java.awt.event.KeyListener;
 
 public class Chr extends GameObject implements KeyListener
 {
-    public int maxLife = 3;
-    public int nowLife = 3;
+    public int maxLife;
+    public int nowLife;
 
-    private double jumpingDelay = 0.020;
-    private double landingDelay = 0.020;
+    private double jumpingDelay;
+    private double landingDelay;
 
-    private boolean jumping = false;
-    private boolean landing = false;
+    private boolean jumping;
+    private boolean landing;
 
-    protected boolean invincible = false;
-    protected double invincibleTime = 7;
+    protected boolean invincible;
+    protected double invincibleTime;
 
     public Chr(View view)
     {
         super(view);
         gap = 20;
 
-        width = 40;
-        height = 40;
+        width = 65;
+        height = 65;
 
-        margin_x = width;
-        margin_y = height;
+        margin_x = width - 25;
+        margin_y = height - 25;
 
         pos_x = 50;
         pos_y = MainFrame.ground_y;
+
+        maxLife = 3;
+        nowLife = 3;
+
+        jumpingDelay = 0.020;
+        landingDelay = 0.020;
+
+        jumping = false;
+        landing = false;
+
+        invincible = false;
+        invincibleTime = 7;
     }
 
     @Override
@@ -122,6 +134,7 @@ public class Chr extends GameObject implements KeyListener
             if (time.timeCtrl(invincibleTime))
             {
                 this.invincible = false;
+                System.out.println("invincible release-chr state: " + this.invincible);
             }
         }
     }

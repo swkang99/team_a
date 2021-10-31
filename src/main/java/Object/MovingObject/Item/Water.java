@@ -13,11 +13,11 @@ public class Water extends Item
     {
         super(view);
 
-        width = 40;
-        height = 40;
+        width = 50;
+        height = 50;
 
-        margin_x = width + 20;
-        margin_y = height + 20;
+        margin_x = width - 35;
+        margin_y = height - 35;
 
         try
         {

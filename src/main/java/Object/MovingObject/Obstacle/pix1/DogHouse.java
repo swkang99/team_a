@@ -14,14 +14,6 @@ public class DogHouse extends ObstaclePix1
     {
         super(view);
 
-        gap = 5;
-
-        width = 40;
-        height = 40;
-
-        margin_x = 0;
-        margin_y = -25;
-
         try
         {
             image = ImageIO.read(new File("src/main/resources/obs/1 pix/doghouse.png"));

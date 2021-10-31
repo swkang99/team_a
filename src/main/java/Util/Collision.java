@@ -18,15 +18,15 @@ public class Collision {
         {
             if (triggered)
             {
-                System.out.println("Triggered " + target_x + ", " + target_y);
-                try
-                {
-                    Thread.sleep(10000);
-                }
-                catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
+               // System.out.println("Triggered " + target_x + ", " + target_y);
+//                try
+//                {
+//                    Thread.sleep(10000);
+//                }
+//                catch (Exception e)
+//                {
+//                    e.printStackTrace();
+//                }
                 OnTrigger = true;
                 return true;
             }

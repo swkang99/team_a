@@ -1,5 +1,6 @@
 package Object.MovingObject.Item;
 
+import Main.MainFrame;
 import Main.View;
 import Object.Character.Chr;
 import Object.GameObject;
@@ -10,13 +11,15 @@ import java.awt.*;
 
 public class Item extends MovingObject
 {
-    protected int plusScore = 10;
+    protected int plusScore;
 
     public Item(View view)
     {
         super(view);
         gap = 3;
         movingDelay = super.gameSpeed;
+
+        plusScore = 10;
     }
 
     public void draw(Graphics g, View view)
@@ -28,5 +31,13 @@ public class Item extends MovingObject
     public void ItemEffect(Chr chr)
     {
         InGame.score += plusScore;
+        DisableItem();
+    }
+
+    protected void DisableItem()
+    {
+        pos_x = -MainFrame.frameWidth;
+        pos_y = -MainFrame.frameHeight;
+        isEnable = false;
     }
 }
