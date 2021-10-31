@@ -1,6 +1,8 @@
 package Object.MovingObject.Item;
 
 import Main.View;
+import Object.Character.Chr;
+import Util.InGame;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -28,5 +30,14 @@ public class Soap extends Item
         {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void ItemEffect (Chr chr)
+    {
+        InGame.score += plusScore;
+
+        if (chr.nowLife < chr.maxLife)
+            chr.nowLife += 1;
     }
 }

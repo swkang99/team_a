@@ -10,7 +10,8 @@ import java.awt.event.KeyListener;
 
 public class Chr extends GameObject implements KeyListener
 {
-    public int life = 3;
+    public int maxLife = 3;
+    public int nowLife = 3;
 
     private double jumpingDelay = 0.020;
     private double landingDelay = 0.020;
@@ -41,6 +42,7 @@ public class Chr extends GameObject implements KeyListener
     {
         super.draw(g, view);
         Jump();
+        RealeaseInvincible();
     }
 
     @Override
@@ -102,13 +104,25 @@ public class Chr extends GameObject implements KeyListener
         return invincible;
     }
 
-    public void setInvincible(boolean val)
+    public void setInvincible(double invincibleTime)
     {
-        invincible = val;
+        this.invincible = true;
+        this.invincibleTime = invincibleTime;
     }
 
-    public double getInvincibleTime()
+    //public double getInvincibleTime()
+//    {
+//        return invincibleTime;
+//    }
+
+    protected void RealeaseInvincible()
     {
-        return invincibleTime;
+        if (invincible)
+        {
+            if (time.timeCtrl(invincibleTime))
+            {
+                this.invincible = false;
+            }
+        }
     }
 }
