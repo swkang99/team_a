@@ -26,7 +26,7 @@ public class InGame
 
     private BGScroll bgScroll;
 
-    private Time time;
+    private Time makingTime;
 
     private Collision obsCollision;
     private Collision itemCollision;
@@ -47,10 +47,10 @@ public class InGame
 
         bgScroll = new BGScroll(view);
 
-        time = new Time();
+        makingTime = new Time();
 
         makingDelay = 1.7;
-        invincibleTimeByObs = 6.5;
+        invincibleTimeByObs = 7;
     }
 
     private void InitObjects(View view)
@@ -59,9 +59,10 @@ public class InGame
         chr = new Pomeranian(view);
         view.addKeyListener(chr);
 
-        obs = new Obstacle[OBSTACLE.values().length * 2];
+        int amountObs = 2;
+        obs = new Obstacle[OBSTACLE.values().length * amountObs];
 
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < amountObs; i++)
         {
             // Flying obs pix 1
             obs[0 + i * OBSTACLE.values().length] = new Bird(view);
@@ -79,10 +80,11 @@ public class InGame
             obs[8 + i * OBSTACLE.values().length] = new TrashCan(view);
         }
 
-        item = new Item[ITEM.values().length * 2];
+        int amountItem = 2;
+        item = new Item[ITEM.values().length * amountItem];
 
         // item
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < amountItem; i++)
         {
             item[0 + i * ITEM.values().length] = new DogBone(view);
             item[1 + i * ITEM.values().length] = new DogFood(view);
@@ -115,10 +117,12 @@ public class InGame
             }
         }
 
-        if (time.timeCtrl(makingDelay))
+        if (makingTime.timeCtrl(makingDelay))
         {
             MakeMovingObject();
         }
+
+        score++;
     }
 
     private void CheckObsCollision (int index)
@@ -134,10 +138,7 @@ public class InGame
             chr.setInvincible(invincibleTimeByObs);
             System.out.println("invincible state: " + chr.isInvincible());
 
-            if (chr.nowLife == 0)
-            {
-                System.out.println("Game Over");
-            }
+            chr.setHitAnimSwitch(true);
         }
     }
 

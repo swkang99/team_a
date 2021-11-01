@@ -5,6 +5,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 import Util.InGame;
 
+import javax.swing.*;
+
 public class View extends Canvas
 {
     private Graphics bufferGraphics;
