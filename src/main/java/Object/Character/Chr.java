@@ -8,6 +8,8 @@ import Util.Time;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
+import java.awt.image.RescaleOp;
 
 public class Chr extends GameObject implements KeyListener
 {
@@ -143,7 +145,6 @@ public class Chr extends GameObject implements KeyListener
     public void setInvincible(double invincibleTime)
     {
         invincible = true;
-        //time.timeCtrl(invincibleTime);
         invincibleDelay = invincibleTime;
     }
 
@@ -181,10 +182,9 @@ public class Chr extends GameObject implements KeyListener
     {
         if (hitAnimSwitch)
         {
-            image = image_die;
             if (hitAniTime.timeCtrl(hitAnimDelay))
             {
-                System.out.println("blink");
+                
             }
         }
     }
@@ -192,6 +192,8 @@ public class Chr extends GameObject implements KeyListener
     public void setHitAnimSwitch(boolean val)
     {
         hitAnimSwitch = val;
+        if (hitAnimSwitch)
+            image = image_die;
     }
 
     private void Die ()

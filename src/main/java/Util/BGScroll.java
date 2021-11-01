@@ -14,10 +14,11 @@ public class BGScroll extends GameObject
 
     private double drawDelay;
     private int pos_x2;
-
+    private Time drawTime;
     public BGScroll (View view)
     {
         super(view);
+
         try
         {
             image = ImageIO.read(new File("src/main/resources/bg/ingame.png"));
@@ -27,11 +28,16 @@ public class BGScroll extends GameObject
         {
             e.printStackTrace();
         }
+
         gap = 5;
+
         pos_x = 0;
         pos_y = 0;
+
         pos_x2 = image.getWidth(null);
+
         drawDelay = super.gameSpeed;
+        drawTime = new Time();
     }
 
     public void draw (Graphics g, View view)
@@ -43,7 +49,7 @@ public class BGScroll extends GameObject
 
     public void Scroll ()
     {
-        if (time.timeCtrl(drawDelay))
+        if (drawTime.timeCtrl(drawDelay))
         {
             pos_x -= gap;
             pos_x2 -= gap;

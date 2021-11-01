@@ -26,7 +26,7 @@ public class InGame
 
     private BGScroll bgScroll;
 
-    private Time time;
+    private Time makingTime;
 
     private Collision obsCollision;
     private Collision itemCollision;
@@ -47,7 +47,7 @@ public class InGame
 
         bgScroll = new BGScroll(view);
 
-        time = new Time();
+        makingTime = new Time();
 
         makingDelay = 1.7;
         invincibleTimeByObs = 7;
@@ -117,10 +117,12 @@ public class InGame
             }
         }
 
-        if (time.timeCtrl(makingDelay))
+        if (makingTime.timeCtrl(makingDelay))
         {
             MakeMovingObject();
         }
+
+        score++;
     }
 
     private void CheckObsCollision (int index)

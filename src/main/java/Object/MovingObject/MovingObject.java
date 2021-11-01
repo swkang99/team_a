@@ -5,6 +5,8 @@ import Main.MainFrame;
 import Main.View;
 import Object.GameObject;
 import Object.Character.Chr;
+import Util.Time;
+
 import java.util.Random;
 
 public class MovingObject extends GameObject
@@ -12,6 +14,7 @@ public class MovingObject extends GameObject
     protected double movingDelay;
     protected boolean isEnable;
     protected final int[] obj_pos_y = new int[3];    // moving object will appear 3 value of y
+    private Time movingTime;
 
     public MovingObject (View view)
     {
@@ -24,6 +27,8 @@ public class MovingObject extends GameObject
         obj_pos_y[0] = MainFrame.ground_y - MainFrame.jumpLimit;
         obj_pos_y[1] = MainFrame.ground_y - (MainFrame.jumpLimit / 2);  // between obj_pos[0] and obj_pos[2]
         obj_pos_y[2] = MainFrame.ground_y;
+
+        movingTime = new Time();
     }
 
     protected void Move ()
@@ -32,7 +37,7 @@ public class MovingObject extends GameObject
         {
             if (pos_x >= 0)
             {
-                if (time.timeCtrl(movingDelay))
+                if (movingTime.timeCtrl(movingDelay))
                     pos_x -= gap;
             }
             else

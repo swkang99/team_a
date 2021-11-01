@@ -24,7 +24,6 @@ public class GameObject
 
     public Image image;
     public View view;
-    public Time time;
 
     public GameObject (View view)
     {
@@ -34,7 +33,6 @@ public class GameObject
         gameSpeed = 0.010;
 
         this.view = view;
-        time = new Time();
     }
 
     public void draw(Graphics g, View view)
