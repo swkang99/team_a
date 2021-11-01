@@ -15,6 +15,7 @@ public class Chr extends GameObject implements KeyListener
 
     private double jumpingDelay;
     private double landingDelay;
+    private double runAnimDelay;
 
     private boolean jumping;
     private boolean landing;
@@ -22,6 +23,7 @@ public class Chr extends GameObject implements KeyListener
     protected boolean invincible;
     protected double invincibleTime;
 
+    protected Image image_basic;
     protected Image image_run;
     protected Image image_die;
 
@@ -44,6 +46,7 @@ public class Chr extends GameObject implements KeyListener
 
         jumpingDelay = 0.020;
         landingDelay = 0.020;
+        runAnimDelay = 0.07;
 
         jumping = false;
         landing = false;
@@ -58,6 +61,7 @@ public class Chr extends GameObject implements KeyListener
         super.draw(g, view);
         Jump();
         ReleaseInvincible();
+        RunningAnimation();
     }
 
     @Override
@@ -91,6 +95,7 @@ public class Chr extends GameObject implements KeyListener
      {
         if (jumping)
         {
+            image = image_basic;
             if (time.timeCtrl(jumpingDelay))
                 pos_y -= gap;
             if (pos_y < MainFrame.ground_y - MainFrame.jumpLimit)
@@ -132,6 +137,21 @@ public class Chr extends GameObject implements KeyListener
             {
                 this.invincible = false;
                 System.out.println("invincible release-chr state: " + this.invincible);
+            }
+        }
+    }
+
+    private void RunningAnimation()
+    {
+        if (time.timeCtrl(runAnimDelay))
+        {
+            if (image.equals(image_basic))
+            {
+                image = image_run;
+            }
+            else if (image.equals(image_run))
+            {
+                image = image_basic;
             }
         }
     }
