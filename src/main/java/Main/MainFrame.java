@@ -8,7 +8,7 @@ public class MainFrame extends JFrame
 
     public static int frameWidth = 800;
     public static int frameHeight = 800;
-    public static int jumpLimit = 260;
+    public static int jumpLimit = 280;
     public static int ground_y = 500;
 
     public MainFrame ()

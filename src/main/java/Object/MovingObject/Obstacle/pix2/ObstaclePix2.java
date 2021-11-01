@@ -13,6 +13,14 @@ public class ObstaclePix2 extends Obstacle
     public ObstaclePix2(View view)
     {
         super(view);
+
+        gap = 5;
+
+        width = 70;
+        height = 70 * 2;
+
+        margin_x = width - 40;
+        margin_y = height - 90;
     }
 
     public void draw (Graphics g, View view)
@@ -25,7 +33,7 @@ public class ObstaclePix2 extends Obstacle
     public void Activate ()
     {
         pos_x = MainFrame.frameWidth;
-        pos_y = obj_pos_y[2];
+        pos_y = obj_pos_y[2] - 80;
 
         super.isEnable = true;
     }

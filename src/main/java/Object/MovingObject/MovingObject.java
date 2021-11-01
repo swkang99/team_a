@@ -1,5 +1,6 @@
 package Object.MovingObject;
 
+import Main.Main;
 import Main.MainFrame;
 import Main.View;
 import Object.GameObject;
@@ -9,7 +10,7 @@ import java.util.Random;
 public class MovingObject extends GameObject
 {
     protected double movingDelay;
-    protected boolean isEnable = false;
+    protected boolean isEnable;
     protected final int[] obj_pos_y = new int[3];    // moving object will appear 3 value of y
 
     public MovingObject (View view)
@@ -17,10 +18,11 @@ public class MovingObject extends GameObject
         super(view);
 
         movingDelay = super.gameSpeed;
+        isEnable = false;
 
         // y value of moving objects
-        obj_pos_y[0] = MainFrame.jumpLimit;
-        obj_pos_y[1] = (MainFrame.ground_y - MainFrame.jumpLimit) / 2;
+        obj_pos_y[0] = MainFrame.ground_y - MainFrame.jumpLimit;
+        obj_pos_y[1] = MainFrame.ground_y - (MainFrame.jumpLimit / 2);  // between obj_pos[0] and obj_pos[2]
         obj_pos_y[2] = MainFrame.ground_y;
     }
 

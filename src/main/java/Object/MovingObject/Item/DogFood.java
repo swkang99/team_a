@@ -13,11 +13,11 @@ public class DogFood extends Item
     {
         super(view);
 
-        width = 40;
-        height = 40;
+        width = 60;
+        height = 60;
 
-        margin_x = width + 20;
-        margin_y = height + 20;
+        margin_x = width - 40;
+        margin_y = height - 50;
 
         try
         {

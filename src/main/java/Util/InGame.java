@@ -21,8 +21,8 @@ import java.util.Random;
 public class InGame
 {
     private Chr chr;
-    private Obstacle[] obs = new Obstacle[OBSTACLE.values().length];
-    private Item[] item = new Item[ITEM.values().length];
+    private Obstacle[] obs;
+    private Item[] item;
 
     private BGScroll bgScroll;
 
@@ -31,7 +31,10 @@ public class InGame
     private Collision obsCollision;
     private Collision itemCollision;
 
-    private double makingDelay = 2.3;
+    private double makingDelay;
+    private double invincibleTimeByObs;
+
+    public static int score = 0;
 
     Random rand = new Random();
 
@@ -45,6 +48,9 @@ public class InGame
         bgScroll = new BGScroll(view);
 
         time = new Time();
+
+        makingDelay = 1.7;
+        invincibleTimeByObs = 6.5;
     }
 
     private void InitObjects(View view)
@@ -53,26 +59,36 @@ public class InGame
         chr = new Pomeranian(view);
         view.addKeyListener(chr);
 
-        // Flying obs pix 1
-        obs[0] = new Bird(view);
+        obs = new Obstacle[OBSTACLE.values().length * 2];
 
-        // obs pix 1
-        obs[1] = new Bollard(view);
-        obs[2] = new DogHouse(view);
-        obs[3] = new FirePlug(view);
-        obs[4] = new TrashBag(view);
+        for (int i = 0; i < 2; i++)
+        {
+            // Flying obs pix 1
+            obs[0 + i * OBSTACLE.values().length] = new Bird(view);
 
-        // obs pix 2
-        obs[5] = new Bamboo(view);
-        obs[6] = new BigDog(view);
-        obs[7] = new Sign(view);
-        obs[8] = new TrashCan(view);
+            // obs pix 1
+            obs[1 + i * OBSTACLE.values().length] = new Bollard(view);
+            obs[2 + i * OBSTACLE.values().length] = new DogHouse(view);
+            obs[3 + i * OBSTACLE.values().length] = new FirePlug(view);
+            obs[4 + i * OBSTACLE.values().length] = new TrashBag(view);
 
-        item[0] = new DogBone(view);
-        item[1] = new DogFood(view);
-        item[2] = new Soap(view);
-        item[3] = new Water(view);
+            // obs pix 2
+            obs[5 + i * OBSTACLE.values().length] = new Bamboo(view);
+            obs[6 + i * OBSTACLE.values().length] = new BigDog(view);
+            obs[7 + i * OBSTACLE.values().length] = new Sign(view);
+            obs[8 + i * OBSTACLE.values().length] = new TrashCan(view);
+        }
 
+        item = new Item[ITEM.values().length * 2];
+
+        // item
+        for (int i = 0; i < 2; i++)
+        {
+            item[0 + i * ITEM.values().length] = new DogBone(view);
+            item[1 + i * ITEM.values().length] = new DogFood(view);
+            item[2 + i * ITEM.values().length] = new Soap(view);
+            item[3 + i * ITEM.values().length] = new Water(view);
+        }
     }
 
     public void Update(Graphics g, View view)
@@ -101,7 +117,6 @@ public class InGame
 
         if (time.timeCtrl(makingDelay))
         {
-            System.out.println("making");
             MakeMovingObject();
         }
     }
@@ -114,24 +129,14 @@ public class InGame
         // obstacle trigger
         if (obsTrigger && !chr.isInvincible())
         {
-            chr.life -= 1;
-            System.out.println("life: " + chr.life);
-            chr.setInvincible(true);
-            System.out.println(chr.isInvincible());
+            chr.nowLife -= 1;
+            System.out.println("life: " + chr.nowLife);
+            chr.setInvincible(invincibleTimeByObs);
+            System.out.println("invincible state: " + chr.isInvincible());
 
-            if (chr.life == 0)
+            if (chr.nowLife == 0)
             {
                 System.out.println("Game Over");
-            }
-        }
-
-        // checking invincible
-        if (chr.isInvincible())
-        {
-            if (time.timeCtrl(chr.getInvincibleTime()))
-            {
-                chr.setInvincible(false);
-                System.out.println(chr.isInvincible());
             }
         }
     }
@@ -139,15 +144,13 @@ public class InGame
     private void CheckItemCollision (int index)
     {
         boolean itemTrigger = itemCollision.TriggerEnter(chr.getPos_x(), chr.getPos_y(), chr.getMargin_x(), chr.getMargin_y(),
-                item[index].getPos_x(), item[index].getPos_y(), item[index].getWidth(), item[index].getHeight());
-        //System.out.println("chr checking: " + chr.getPos_x() + ", " + chr.getPos_y());
-        //System.out.println("item checking: " + item.getPos_x() + ", " + item.getPos_y());
+                item[index].getPos_x(), item[index].getPos_y(), item[index].getMargin_x(), item[index].getMargin_y());
+
         // item trigger
         if (itemTrigger)
         {
-
             System.out.println("Item get: " + item[index].toString());
-
+            item[index].ItemEffect(chr);
         }
     }
 
@@ -166,12 +169,14 @@ public class InGame
     private void MakeItem ()
     {
         int rand_item = rand.nextInt(item.length);
-        item[rand_item].Activate();
+        if (!item[rand_item].isEnable())
+            item[rand_item].Activate();
     }
 
     private void MakeObs ()
     {
         int rand_obs = rand.nextInt(obs.length);
-        obs[rand_obs].Activate();
+        if (!obs[rand_obs].isEnable())
+            obs[rand_obs].Activate();
     }
 }

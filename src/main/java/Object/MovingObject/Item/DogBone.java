@@ -1,6 +1,8 @@
 package Object.MovingObject.Item;
 
 import Main.View;
+import Object.Character.Chr;
+import Util.InGame;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -9,15 +11,18 @@ import java.io.IOException;
 
 public class DogBone extends Item
 {
+    private double invincibleTimebyDogBone;
     public DogBone (View view)
     {
         super(view);
 
-        width = 40;
-        height = 40;
+        width = 50;
+        height = 50;
 
-        margin_x = width + 20;
-        margin_y = height + 20;
+        margin_x = width - 20;
+        margin_y = height - 20;
+
+        invincibleTimebyDogBone = 7.5;
 
         try
         {
@@ -28,5 +33,14 @@ public class DogBone extends Item
         {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void ItemEffect (Chr chr)
+    {
+        InGame.score += plusScore;
+        chr.setInvincible(invincibleTimebyDogBone);
+        System.out.println("Dog Bone activated-chr invincible: " + chr.isInvincible());
+        super.DisableItem();
     }
 }

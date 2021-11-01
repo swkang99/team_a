@@ -14,14 +14,6 @@ public class TrashCan extends ObstaclePix2
     {
         super(view);
 
-        gap = 5;
-
-        width = 40;
-        height = 40 * 2;
-
-        margin_x = 0;
-        margin_y = -25;
-
         try
         {
             image = ImageIO.read(new File("src/main/resources/obs/2 pix/trash.png"));

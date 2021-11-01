@@ -12,7 +12,7 @@ import Object.GameObject;
 public class BGScroll extends GameObject
 {
 
-    private double drawDelay = super.gameSpeed;
+    private double drawDelay;
     private int pos_x2;
 
     public BGScroll (View view)
@@ -31,6 +31,7 @@ public class BGScroll extends GameObject
         pos_x = 0;
         pos_y = 0;
         pos_x2 = image.getWidth(null);
+        drawDelay = super.gameSpeed;
     }
 
     public void draw (Graphics g, View view)
