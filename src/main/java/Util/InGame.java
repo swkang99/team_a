@@ -50,7 +50,7 @@ public class InGame
         time = new Time();
 
         makingDelay = 1.7;
-        invincibleTimeByObs = 3;
+        invincibleTimeByObs = 6.5;
     }
 
     private void InitObjects(View view)
@@ -61,55 +61,33 @@ public class InGame
 
         obs = new Obstacle[OBSTACLE.values().length * 2];
 
-        // Flying obs pix 1
-        obs[0] = new Bird(view);
-        obs[1] = new Bird(view);
+        for (int i = 0; i < 2; i++)
+        {
+            // Flying obs pix 1
+            obs[0 + i * OBSTACLE.values().length] = new Bird(view);
 
-        // obs pix 1
-        obs[2] = new Bollard(view);
-        obs[3] = new Bollard(view);
-        obs[4] = new DogHouse(view);
-        obs[5] = new DogHouse(view);
-        obs[6] = new FirePlug(view);
-        obs[7] = new FirePlug(view);
-        obs[8] = new TrashBag(view);
-        obs[9] = new TrashBag(view);
+            // obs pix 1
+            obs[1 + i * OBSTACLE.values().length] = new Bollard(view);
+            obs[2 + i * OBSTACLE.values().length] = new DogHouse(view);
+            obs[3 + i * OBSTACLE.values().length] = new FirePlug(view);
+            obs[4 + i * OBSTACLE.values().length] = new TrashBag(view);
 
-        // obs pix 2
-        obs[10] = new Bamboo(view);
-        obs[11] = new Bamboo(view);
-        obs[12] = new BigDog(view);
-        obs[13] = new BigDog(view);
-        obs[14] = new Sign(view);
-        obs[15] = new Sign(view);
-        obs[16] = new TrashCan(view);
-        obs[17] = new TrashCan(view);
+            // obs pix 2
+            obs[5 + i * OBSTACLE.values().length] = new Bamboo(view);
+            obs[6 + i * OBSTACLE.values().length] = new BigDog(view);
+            obs[7 + i * OBSTACLE.values().length] = new Sign(view);
+            obs[8 + i * OBSTACLE.values().length] = new TrashCan(view);
+        }
 
         item = new Item[ITEM.values().length * 2];
 
         // item
-        for (int i = 0; i < ITEM.values().length; i++)
+        for (int i = 0; i < 2; i++)
         {
-            if (i == ITEM.DogBone.ordinal())
-            {
-                item[i * 2] = new DogBone(view);
-                item[i * 2 + 1] = new DogBone(view);
-            }
-            else if (i == ITEM.DogFood.ordinal())
-            {
-                item[i * 2] = new DogFood(view);
-                item[i * 2 + 1] = new DogFood(view);
-            }
-            else if (i == ITEM.Soap.ordinal())
-            {
-                item[i * 2] = new Soap(view);
-                item[i * 2 + 1] = new Soap(view);
-            }
-            else if (i == ITEM.Water.ordinal())
-            {
-                item[i * 2] = new Water(view);
-                item[i * 2 + 1] = new Water(view);
-            }
+            item[0 + i * ITEM.values().length] = new DogBone(view);
+            item[1 + i * ITEM.values().length] = new DogFood(view);
+            item[2 + i * ITEM.values().length] = new Soap(view);
+            item[3 + i * ITEM.values().length] = new Water(view);
         }
     }
 
@@ -161,16 +139,6 @@ public class InGame
                 System.out.println("Game Over");
             }
         }
-
-        // checking invincible
-//        if (chr.isInvincible())
-//        {
-//            if (time.timeCtrl(chr.getInvincibleTime()))
-//            {
-//                chr.setInvincible(false);
-//                System.out.println(chr.isInvincible());
-//            }
-//        }
     }
 
     private void CheckItemCollision (int index)

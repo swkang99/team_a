@@ -22,6 +22,9 @@ public class Chr extends GameObject implements KeyListener
     protected boolean invincible;
     protected double invincibleTime;
 
+    protected Image image_run;
+    protected Image image_die;
+
     public Chr(View view)
     {
         super(view);
@@ -54,7 +57,7 @@ public class Chr extends GameObject implements KeyListener
     {
         super.draw(g, view);
         Jump();
-        RealeaseInvincible();
+        ReleaseInvincible();
     }
 
     @Override
@@ -76,7 +79,6 @@ public class Chr extends GameObject implements KeyListener
                     jumping = true;
                 break;
         }
-        //System.out.println(x+", "+y);
     }
 
     @Override
@@ -122,12 +124,7 @@ public class Chr extends GameObject implements KeyListener
         this.invincibleTime = invincibleTime;
     }
 
-    //public double getInvincibleTime()
-//    {
-//        return invincibleTime;
-//    }
-
-    protected void RealeaseInvincible()
+    protected void ReleaseInvincible()
     {
         if (invincible)
         {
