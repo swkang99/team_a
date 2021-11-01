@@ -22,7 +22,7 @@ public class DogBone extends Item
         margin_x = width - 20;
         margin_y = height - 20;
 
-        invincibleTimebyDogBone = 7.5;
+        invincibleTimebyDogBone = 7;
 
         try
         {
