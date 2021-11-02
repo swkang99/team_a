@@ -1,14 +1,11 @@
 package Util;
 
+import Main.MainFrame;
 import Main.View;
-import Object.Character.Chr;
-import Object.Character.Pomeranian;
+import Object.Character.*;
 import Object.MovingObject.Item.*;
 import Object.MovingObject.Obstacle.Obstacle;
-import Object.MovingObject.Obstacle.pix2.Bamboo;
-import Object.MovingObject.Obstacle.pix2.BigDog;
-import Object.MovingObject.Obstacle.pix2.Sign;
-import Object.MovingObject.Obstacle.pix2.TrashCan;
+import Object.MovingObject.Obstacle.pix2.*;
 import Object.MovingObject.Obstacle.flying_pix1.Bird;
 import Object.MovingObject.Obstacle.pix1.Bollard;
 import Object.MovingObject.Obstacle.pix1.DogHouse;
@@ -20,27 +17,41 @@ import java.util.Random;
 
 public class InGame
 {
-    private Chr chr;
-    private Obstacle[] obs;
+    private Chr[] chr;
+    private CHARACTER nowChr;
+    private Obstacle[] obsPix1;
+    private ObstaclePix2[] obsPix2Up;
+    private ObstaclePix2[] obsPix2Down;
     private Item[] item;
+    private Heart[] heart;
 
     private BGScroll bgScroll;
 
     private Time makingTime;
+    private Time scoreUpTime;
 
     private Collision obsCollision;
     private Collision itemCollision;
 
     private double makingDelay;
+    private double scoreUpDelay;
     private double invincibleTimeByObs;
 
     public static int score = 0;
+    public static double gameSpeed = 0.005;     // speed of game
 
     Random rand = new Random();
+
+    private Audio itemSound;
+    private Audio hitSound;
+    private Audio ingameBGM;
+
+    private Font font;
 
     public InGame(View view)
     {
         InitObjects(view);
+        InitHeart();
 
         obsCollision = new Collision();
         itemCollision = new Collision();
@@ -48,36 +59,79 @@ public class InGame
         bgScroll = new BGScroll(view);
 
         makingTime = new Time();
+        scoreUpTime = new Time();
 
-        makingDelay = 1.7;
+        makingDelay = 1.8;
+        SetGameSpeed(gameSpeed);
         invincibleTimeByObs = 7;
+
+
+        itemSound = new Audio("src/main/resources/sounds/item.wav", false);
+        hitSound = new Audio("src/main/resources/sounds/hit.wav", false);
+        ingameBGM = new Audio("src/main/resources/sounds/ingamebgm.wav", true);
+        ingameBGM.start();
+
+        font = new Font("Serif", Font.PLAIN, 30);
+    }
+
+    private void SetGameSpeed(double speed)
+    {
+        gameSpeed *= speed;
+        scoreUpDelay = gameSpeed + 0.1;
     }
 
     private void InitObjects(View view)
     {
         // Character
-        chr = new Pomeranian(view);
-        view.addKeyListener(chr);
+        chr = new Chr[3];
 
-        int amountObs = 2;
-        obs = new Obstacle[OBSTACLE.values().length * amountObs];
+        chr[0] = new Pomeranian(view);
+        view.addKeyListener(chr[0]);
+        nowChr = CHARACTER.Pomeranian;
 
-        for (int i = 0; i < amountObs; i++)
+        chr[1] = new Maltese(view);
+        view.addKeyListener(chr[1]);
+
+        chr[2] = new Beagle(view);
+        view.addKeyListener(chr[2]);
+
+        int amountObsPix1 = 2;
+        obsPix1 = new Obstacle[OBSTACLEPIX1.values().length * amountObsPix1];
+
+        for (int i = 0; i < amountObsPix1; i++)
         {
             // Flying obs pix 1
-            obs[0 + i * OBSTACLE.values().length] = new Bird(view);
+            obsPix1[0 + i * OBSTACLEPIX1.values().length] = new Bird(view);
 
             // obs pix 1
-            obs[1 + i * OBSTACLE.values().length] = new Bollard(view);
-            obs[2 + i * OBSTACLE.values().length] = new DogHouse(view);
-            obs[3 + i * OBSTACLE.values().length] = new FirePlug(view);
-            obs[4 + i * OBSTACLE.values().length] = new TrashBag(view);
+            obsPix1[1 + i * OBSTACLEPIX1.values().length] = new Bollard(view);
+            obsPix1[2 + i * OBSTACLEPIX1.values().length] = new DogHouse(view);
+            obsPix1[3 + i * OBSTACLEPIX1.values().length] = new FirePlug(view);
+            obsPix1[4 + i * OBSTACLEPIX1.values().length] = new TrashBag(view);
+        }
 
-            // obs pix 2
-            obs[5 + i * OBSTACLE.values().length] = new Bamboo(view);
-            obs[6 + i * OBSTACLE.values().length] = new BigDog(view);
-            obs[7 + i * OBSTACLE.values().length] = new Sign(view);
-            obs[8 + i * OBSTACLE.values().length] = new TrashCan(view);
+        int amountObsPix2Up = 2;
+        obsPix2Up = new ObstaclePix2[OBSTACLEPIX2UP.values().length * amountObsPix2Up];
+
+        for (int i = 0; i < amountObsPix2Up; i++)
+        {
+            // obs pix 2 Up
+            obsPix2Up[0 + i * OBSTACLEPIX2UP.values().length] = new Bamboo_Up(view);
+            obsPix2Up[1 + i * OBSTACLEPIX2UP.values().length] = new BigDog_Up(view);
+            obsPix2Up[2 + i * OBSTACLEPIX2UP.values().length] = new Sign_Up(view);
+            obsPix2Up[3 + i * OBSTACLEPIX2UP.values().length] = new TrashCan_Up(view);
+        }
+
+        int amountObsPix2Down = 2;
+        obsPix2Down = new ObstaclePix2[OBSTACLEPIX2DOWN.values().length * amountObsPix2Up];
+
+        for (int i = 0; i < amountObsPix2Down; i++)
+        {
+            // obs pix 2 Down
+            obsPix2Down[0 + i * OBSTACLEPIX2DOWN.values().length] = new Bamboo_Down(view);
+            obsPix2Down[1 + i * OBSTACLEPIX2DOWN.values().length] = new BigDog_Down(view);
+            obsPix2Down[2 + i * OBSTACLEPIX2DOWN.values().length] = new Sign_Down(view);
+            obsPix2Down[3 + i * OBSTACLEPIX2DOWN.values().length] = new TrashCan_Down(view);
         }
 
         int amountItem = 2;
@@ -93,18 +147,39 @@ public class InGame
         }
     }
 
+    private void InitHeart ()
+    {
+        heart = new Heart[chr[nowChr.ordinal()].maxLife];
+
+        for (int i = 0; i < heart.length; i++)
+        {
+            heart[i] = new Heart(40 + i * 40,40);
+        }
+    }
+
     public void Update(Graphics g, View view)
     {
         bgScroll.draw(g, view);
 
-        chr.draw(g, view);
+        chr[nowChr.ordinal()].draw(g, view);
 
-        for (int i = 0; i < obs.length; i++)
+        for (int i = 0; i < obsPix1.length; i++)
         {
-            if (obs[i].isEnable())
+            if (obsPix1[i].isEnable())
             {
-                obs[i].draw(g, view);
-                CheckObsCollision(i);
+                obsPix1[i].draw(g, view);
+                CheckObsCollision(obsPix1, i);
+            }
+        }
+
+        for (int i = 0; i < obsPix2Down.length; i++)
+        {
+            if (obsPix2Down[i].isEnable())
+            {
+                obsPix2Down[i].draw(g, view);
+                obsPix2Up[i].SetPosition(obsPix2Down[i].getPos_x(), obsPix2Down[i].getPos_y() - obsPix2Up[i].getHeight());
+                obsPix2Up[i].draw(g, view);
+                CheckObsCollision(obsPix2Down, i);
             }
         }
 
@@ -122,48 +197,63 @@ public class InGame
             MakeMovingObject();
         }
 
-        score++;
+        if (scoreUpTime.timeCtrl(scoreUpDelay))
+        {
+            if (chr[nowChr.ordinal()].nowLife > 0)
+                score++;
+        }
+
+        DrawHeart(g, view);
+        g.setFont(font);
+        g.drawString(Integer.toString(InGame.score), (MainFrame.frameWidth / 2) - 30, 72);
+
+        GoNextStage();
     }
 
-    private void CheckObsCollision (int index)
+    private void CheckObsCollision (Obstacle[] obs, int index)
     {
-        boolean obsTrigger = obsCollision.TriggerEnter(chr.getPos_x(), chr.getPos_y(), chr.getMargin_x(), chr.getMargin_y(),
+        boolean obsTrigger = obsCollision.TriggerEnter(chr[nowChr.ordinal()].getPos_x(), chr[nowChr.ordinal()].getPos_y(), chr[nowChr.ordinal()].getMargin_x(), chr[nowChr.ordinal()].getMargin_y(),
                 obs[index].getPos_x(), obs[index].getPos_y(), obs[index].getMargin_x(), obs[index].getMargin_y());
 
         // obstacle trigger
-        if (obsTrigger && !chr.isInvincible())
+        if (obsTrigger && !chr[nowChr.ordinal()].isInvincible())
         {
-            chr.nowLife -= 1;
-            System.out.println("life: " + chr.nowLife);
-            chr.setInvincible(invincibleTimeByObs);
-            System.out.println("invincible state: " + chr.isInvincible());
+            chr[nowChr.ordinal()].nowLife -= 1;
+            chr[nowChr.ordinal()].setInvincible(invincibleTimeByObs, true);
 
-            chr.setHitAnimSwitch(true);
+            chr[nowChr.ordinal()].setHitAnimSwitch(true);
+            hitSound.start();
         }
     }
 
     private void CheckItemCollision (int index)
     {
-        boolean itemTrigger = itemCollision.TriggerEnter(chr.getPos_x(), chr.getPos_y(), chr.getMargin_x(), chr.getMargin_y(),
+        boolean itemTrigger = itemCollision.TriggerEnter(chr[nowChr.ordinal()].getPos_x(), chr[nowChr.ordinal()].getPos_y(), chr[nowChr.ordinal()].getMargin_x(), chr[nowChr.ordinal()].getMargin_y(),
                 item[index].getPos_x(), item[index].getPos_y(), item[index].getMargin_x(), item[index].getMargin_y());
 
         // item trigger
         if (itemTrigger)
         {
-            System.out.println("Item get: " + item[index].toString());
-            item[index].ItemEffect(chr);
+            item[index].ItemEffect(chr[nowChr.ordinal()]);
+            itemSound.start();
         }
     }
 
     private void MakeMovingObject ()
     {
-        switch (rand.nextInt(2))
+        switch (rand.nextInt(3))
         {
             case 0:
                 MakeItem();
+                break;
 
             case 1:
-                MakeObs();
+                MakeObsPix1();
+                break;
+
+            case 2:
+                MakeObsPix2();
+                break;
         }
     }
 
@@ -174,10 +264,57 @@ public class InGame
             item[rand_item].Activate();
     }
 
-    private void MakeObs ()
+    private void MakeObsPix1 ()
     {
-        int rand_obs = rand.nextInt(obs.length);
-        if (!obs[rand_obs].isEnable())
-            obs[rand_obs].Activate();
+        int rand_obs = rand.nextInt(obsPix1.length);
+        if (!obsPix1[rand_obs].isEnable())
+        {
+            obsPix1[rand_obs].Activate();
+        }
+    }
+
+    private void MakeObsPix2 ()
+    {
+        int rand_obs = rand.nextInt(obsPix2Down.length);
+        if (!obsPix2Down[rand_obs].isEnable())
+        {
+            obsPix2Down[rand_obs].Activate();
+            obsPix2Up[rand_obs].Activate();
+        }
+    }
+
+    private void DrawHeart(Graphics g, View view)
+    {
+        if (chr[nowChr.ordinal()].nowLife >= 0)
+        {
+            for (int i = chr[nowChr.ordinal()].maxLife - chr[nowChr.ordinal()].nowLife; i > 0; i--)
+            {
+                heart[chr[nowChr.ordinal()].nowLife].SetHeartBlank();
+            }
+
+            for (int i = 0; i < chr[nowChr.ordinal()].nowLife; i++)
+            {
+                heart[i].SetHeartFill();
+            }
+
+            for (int i = 0; i < heart.length; i++)
+            {
+                heart[i].draw(g, view);
+            }
+        }
+    }
+
+    private void GoNextStage ()
+    {
+        if (score > 100 && nowChr.equals(CHARACTER.Pomeranian))
+        {
+            nowChr = CHARACTER.Maltese;
+            SetGameSpeed(0.1);
+        }
+        else if (score > 180 && nowChr.equals(CHARACTER.Maltese))
+        {
+            nowChr = CHARACTER.Beagle;
+            SetGameSpeed(0.01);
+        }
     }
 }

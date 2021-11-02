@@ -17,13 +17,14 @@ public class Item extends MovingObject
     {
         super(view);
         gap = 3;
-        movingDelay = super.gameSpeed;
+        movingDelay = InGame.gameSpeed;
 
-        plusScore = 10;
+        plusScore = 30;
     }
 
     public void draw(Graphics g, View view)
     {
+        movingDelay = InGame.gameSpeed;
         super.draw(g, view);
         super.Move();
     }

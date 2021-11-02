@@ -20,8 +20,6 @@ public class GameObject
     protected int margin_x;         // x value of margin for checking collision
     protected int margin_y;         // y value of margin for checking collision
 
-    protected double gameSpeed;     // speed of game
-
     public Image image;
     public View view;
 
@@ -29,8 +27,6 @@ public class GameObject
     {
         pos_x = -MainFrame.frameWidth;
         pos_y = -MainFrame.frameHeight;
-
-        gameSpeed = 0.010;
 
         this.view = view;
     }

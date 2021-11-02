@@ -3,8 +3,10 @@ package Object.Character;
 import Main.MainFrame;
 import Main.View;
 import Object.GameObject;
+import Util.Audio;
 import Util.Time;
 
+import java.applet.AudioClip;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -27,14 +29,21 @@ public class Chr extends GameObject implements KeyListener
     private Time runAniTime;
     private Time hitAniTime;
 
-    private boolean invincible;
+    private boolean invincibleByObs;
+    private boolean invincibleByItem;
     private boolean hitAnimSwitch;
     private double invincibleDelay;
     private Time invincibleTime;
 
     protected Image image_basic;
+    protected Image image_basic_invincible;
     protected Image image_run;
+    protected Image image_run_invincible;
     protected Image image_die;
+    protected Image image_die_alphaSet;
+
+    private Audio jumpSound;
+    private Audio gameoverSound;
 
     public Chr(View view)
     {
@@ -60,13 +69,17 @@ public class Chr extends GameObject implements KeyListener
         movingTime = new Time();
 
         runAnimDelay = 0.07;
-        hitAnimDelay = 0.07;
+        hitAnimDelay = 0.1;
         runAniTime = new Time();
         hitAniTime = new Time();
 
-        invincible = false;
+        invincibleByObs = false;
+        invincibleByItem = false;
         hitAnimSwitch = false;
         invincibleTime = new Time();
+
+        jumpSound = new Audio("src/main/resources/sounds/jump.wav", false);
+        gameoverSound = new Audio("src/main/resources/sounds/gameover.wav", false);
     }
 
     @Override
@@ -94,12 +107,12 @@ public class Chr extends GameObject implements KeyListener
     {
         switch(e.getKeyCode())
         {
-            case KeyEvent.VK_UP:
-                if (!jumping && !landing)
-                    jumping = true;
             case KeyEvent.VK_SPACE:
                 if (!jumping && !landing)
+                {
                     jumping = true;
+                    jumpSound.start();
+                }
                 break;
         }
     }
@@ -114,7 +127,6 @@ public class Chr extends GameObject implements KeyListener
      {
         if (jumping)
         {
-            image = image_basic;
             if (movingTime.timeCtrl(jumpingDelay))
                 pos_y -= gap;
             if (pos_y < MainFrame.ground_y - MainFrame.jumpLimit)
@@ -133,29 +145,39 @@ public class Chr extends GameObject implements KeyListener
             {
                 jumping = false;
                 landing = false;
+                jumpSound.stop();
             }
         }
     }
 
     public boolean isInvincible()
     {
-        return invincible;
+        return invincibleByObs || invincibleByItem;
     }
 
-    public void setInvincible(double invincibleTime)
+    // invincibleSwitch: true -> by obs, false -> by item
+    public void setInvincible(double invincibleTime, boolean invincibleSwitch)
     {
-        invincible = true;
+        if (invincibleSwitch)
+        {
+            invincibleByObs = true;
+        }
+        else
+        {
+            invincibleByItem = true;
+            image = image_basic_invincible;
+        }
         invincibleDelay = invincibleTime;
     }
 
     protected void ReleaseInvincible()
     {
-        if (invincible)
+        if (invincibleByItem || invincibleByObs)
         {
             if (invincibleTime.timeCtrl(invincibleDelay))
             {
-                invincible = false;
-                System.out.println("invincible release-chr state: " + invincible);
+                invincibleByObs = false;
+                invincibleByItem = false;
 
                 setHitAnimSwitch(false);
                 image = image_basic;
@@ -167,13 +189,28 @@ public class Chr extends GameObject implements KeyListener
     {
         if (runAniTime.timeCtrl(runAnimDelay))
         {
-            if (image.equals(image_basic))
+            if (invincibleByItem)
             {
-                image = image_run;
+                if (image.equals(image_basic_invincible))
+                {
+                    image = image_run_invincible;
+                }
+                else if (image.equals(image_run_invincible))
+                {
+                    image = image_basic_invincible;
+                }
             }
-            else if (image.equals(image_run))
+            else
             {
-                image = image_basic;
+                if (image.equals(image_basic))
+                {
+                    image = image_run;
+                }
+                else if (image.equals(image_run))
+                {
+                    image = image_basic;
+                }
+
             }
         }
     }
@@ -184,7 +221,14 @@ public class Chr extends GameObject implements KeyListener
         {
             if (hitAniTime.timeCtrl(hitAnimDelay))
             {
-                
+                if (image.equals(image_die))
+                {
+                    image = image_die_alphaSet;
+                }
+                else if (image.equals(image_die_alphaSet))
+                {
+                    image = image_die;
+                }
             }
         }
     }
@@ -202,6 +246,8 @@ public class Chr extends GameObject implements KeyListener
         {
             System.out.println("Game Over");
             image = image_die;
+            gameoverSound.start();
+            nowLife--;
         }
     }
 }
