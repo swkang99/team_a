@@ -5,6 +5,7 @@ import Main.MainFrame;
 import Main.View;
 import Object.GameObject;
 import Object.Character.Chr;
+import Util.InGame;
 import Util.Time;
 
 import java.util.Random;
@@ -20,7 +21,6 @@ public class MovingObject extends GameObject
     {
         super(view);
 
-        movingDelay = super.gameSpeed;
         isEnable = false;
 
         // y value of moving objects
@@ -33,6 +33,7 @@ public class MovingObject extends GameObject
 
     protected void Move ()
     {
+        movingDelay = InGame.gameSpeed + 0.003;
         if(isEnable)
         {
             if (pos_x >= 0)

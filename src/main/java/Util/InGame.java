@@ -38,6 +38,7 @@ public class InGame
     private double invincibleTimeByObs;
 
     public static int score = 0;
+    public static double gameSpeed = 0.005;     // speed of game
 
     Random rand = new Random();
 
@@ -60,9 +61,10 @@ public class InGame
         makingTime = new Time();
         scoreUpTime = new Time();
 
-        makingDelay = 1.7;
-        scoreUpDelay = 0.13;
+        makingDelay = 1.8;
+        SetGameSpeed(gameSpeed);
         invincibleTimeByObs = 7;
+
 
         itemSound = new Audio("src/main/resources/sounds/item.wav", false);
         hitSound = new Audio("src/main/resources/sounds/hit.wav", false);
@@ -70,6 +72,12 @@ public class InGame
         ingameBGM.start();
 
         font = new Font("Serif", Font.PLAIN, 30);
+    }
+
+    private void SetGameSpeed(double speed)
+    {
+        gameSpeed *= speed;
+        scoreUpDelay = gameSpeed + 0.1;
     }
 
     private void InitObjects(View view)
@@ -298,13 +306,15 @@ public class InGame
 
     private void GoNextStage ()
     {
-        if (score > 500 && nowChr.equals(CHARACTER.Pomeranian))
+        if (score > 100 && nowChr.equals(CHARACTER.Pomeranian))
         {
             nowChr = CHARACTER.Maltese;
+            SetGameSpeed(0.1);
         }
-        else if (score > 1000 && nowChr.equals(CHARACTER.Maltese))
+        else if (score > 180 && nowChr.equals(CHARACTER.Maltese))
         {
             nowChr = CHARACTER.Beagle;
+            SetGameSpeed(0.01);
         }
     }
 }

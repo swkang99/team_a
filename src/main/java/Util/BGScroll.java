@@ -36,7 +36,7 @@ public class BGScroll extends GameObject
 
         pos_x2 = image.getWidth(null);
 
-        drawDelay = super.gameSpeed;
+        drawDelay = InGame.gameSpeed - 0.005;
         drawTime = new Time();
     }
 
@@ -49,6 +49,7 @@ public class BGScroll extends GameObject
 
     public void Scroll ()
     {
+        drawDelay = InGame.gameSpeed - 0.005;
         if (drawTime.timeCtrl(drawDelay))
         {
             pos_x -= gap;

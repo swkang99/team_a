@@ -42,7 +42,6 @@ public class Chr extends GameObject implements KeyListener
     protected Image image_die;
     protected Image image_die_alphaSet;
 
-
     private Audio jumpSound;
     private Audio gameoverSound;
 
@@ -128,9 +127,6 @@ public class Chr extends GameObject implements KeyListener
      {
         if (jumping)
         {
-            if (!hitAnimSwitch)
-                image = image_basic;
-
             if (movingTime.timeCtrl(jumpingDelay))
                 pos_y -= gap;
             if (pos_y < MainFrame.ground_y - MainFrame.jumpLimit)
@@ -169,8 +165,8 @@ public class Chr extends GameObject implements KeyListener
         else
         {
             invincibleByItem = true;
+            image = image_basic_invincible;
         }
-        image = image_basic_invincible;
         invincibleDelay = invincibleTime;
     }
 
