@@ -1,5 +1,6 @@
 package Util;
 
+import Main.MainFrame;
 import Main.View;
 import Object.Character.Chr;
 import Object.Character.Pomeranian;
@@ -32,11 +33,13 @@ public class InGame
     private BGScroll bgScroll;
 
     private Time makingTime;
+    private Time scoreUpTime;
 
     private Collision obsCollision;
     private Collision itemCollision;
 
     private double makingDelay;
+    private double scoreUpDelay;
     private double invincibleTimeByObs;
 
     public static int score = 0;
@@ -46,6 +49,8 @@ public class InGame
     private Audio itemSound;
     private Audio hitSound;
     private Audio ingameBGM;
+
+    private Font font;
 
     public InGame(View view)
     {
@@ -58,8 +63,10 @@ public class InGame
         bgScroll = new BGScroll(view);
 
         makingTime = new Time();
+        scoreUpTime = new Time();
 
         makingDelay = 1.7;
+        scoreUpDelay = 0.13;
         invincibleTimeByObs = 7;
 
         itemSound = new Audio("src/main/resources/sounds/item.wav", false);
@@ -67,7 +74,7 @@ public class InGame
         ingameBGM = new Audio("src/main/resources/sounds/ingamebgm.wav", true);
         ingameBGM.start();
 
-
+        font = new Font("Serif", Font.PLAIN, 30);
     }
 
     private void InitObjects(View view)
@@ -149,9 +156,14 @@ public class InGame
             MakeMovingObject();
         }
 
-        score++;
+        if (scoreUpTime.timeCtrl(scoreUpDelay))
+        {
+            score++;
+        }
 
         drawHeart(g, view);
+        g.setFont(font);
+        g.drawString(Integer.toString(InGame.score), (MainFrame.frameWidth / 2) - 30, 72);
     }
 
     private void CheckObsCollision (int index)
@@ -211,19 +223,22 @@ public class InGame
 
     private void drawHeart(Graphics g, View view)
     {
-        for (int i = chr.maxLife - chr.nowLife; i > 0; i--)
+        if (chr.nowLife >= 0)
         {
-            heart[chr.nowLife].SetHeartBlank();
-        }
+            for (int i = chr.maxLife - chr.nowLife; i > 0; i--)
+            {
+                heart[chr.nowLife].SetHeartBlank();
+            }
 
-        for (int i = 0; i < chr.nowLife; i++)
-        {
-            heart[i].SetHeartFill();
-        }
+            for (int i = 0; i < chr.nowLife; i++)
+            {
+                heart[i].SetHeartFill();
+            }
 
-        for (int i = 0; i < heart.length; i++)
-        {
-            heart[i].draw(g, view);
+            for (int i = 0; i < heart.length; i++)
+            {
+                heart[i].draw(g, view);
+            }
         }
     }
 }
