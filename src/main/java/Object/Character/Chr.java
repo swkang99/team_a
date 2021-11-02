@@ -108,12 +108,6 @@ public class Chr extends GameObject implements KeyListener
     {
         switch(e.getKeyCode())
         {
-            case KeyEvent.VK_UP:
-                if (!jumping && !landing)
-                {
-                    jumping = true;
-                    jumpSound.start();
-                }
             case KeyEvent.VK_SPACE:
                 if (!jumping && !landing)
                 {
@@ -220,6 +214,7 @@ public class Chr extends GameObject implements KeyListener
                 {
                     image = image_basic;
                 }
+
             }
         }
     }

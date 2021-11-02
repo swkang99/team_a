@@ -2,9 +2,7 @@ package Util;
 
 import Main.MainFrame;
 import Main.View;
-import Object.Character.Chr;
-import Object.Character.Heart;
-import Object.Character.Pomeranian;
+import Object.Character.*;
 import Object.MovingObject.Item.*;
 import Object.MovingObject.Obstacle.Obstacle;
 import Object.MovingObject.Obstacle.pix2.*;
@@ -19,7 +17,8 @@ import java.util.Random;
 
 public class InGame
 {
-    private Chr chr;
+    private Chr[] chr;
+    private CHARACTER nowChr;
     private Obstacle[] obsPix1;
     private ObstaclePix2[] obsPix2Up;
     private ObstaclePix2[] obsPix2Down;
@@ -76,8 +75,17 @@ public class InGame
     private void InitObjects(View view)
     {
         // Character
-        chr = new Pomeranian(view);
-        view.addKeyListener(chr);
+        chr = new Chr[3];
+
+        chr[0] = new Pomeranian(view);
+        view.addKeyListener(chr[0]);
+        nowChr = CHARACTER.Pomeranian;
+
+        chr[1] = new Maltese(view);
+        view.addKeyListener(chr[1]);
+
+        chr[2] = new Beagle(view);
+        view.addKeyListener(chr[2]);
 
         int amountObsPix1 = 2;
         obsPix1 = new Obstacle[OBSTACLEPIX1.values().length * amountObsPix1];
@@ -133,7 +141,7 @@ public class InGame
 
     private void InitHeart ()
     {
-        heart = new Heart[chr.maxLife];
+        heart = new Heart[chr[nowChr.ordinal()].maxLife];
 
         for (int i = 0; i < heart.length; i++)
         {
@@ -145,7 +153,7 @@ public class InGame
     {
         bgScroll.draw(g, view);
 
-        chr.draw(g, view);
+        chr[nowChr.ordinal()].draw(g, view);
 
         for (int i = 0; i < obsPix1.length; i++)
         {
@@ -183,39 +191,42 @@ public class InGame
 
         if (scoreUpTime.timeCtrl(scoreUpDelay))
         {
-            score++;
+            if (chr[nowChr.ordinal()].nowLife > 0)
+                score++;
         }
 
-        drawHeart(g, view);
+        DrawHeart(g, view);
         g.setFont(font);
         g.drawString(Integer.toString(InGame.score), (MainFrame.frameWidth / 2) - 30, 72);
+
+        GoNextStage();
     }
 
     private void CheckObsCollision (Obstacle[] obs, int index)
     {
-        boolean obsTrigger = obsCollision.TriggerEnter(chr.getPos_x(), chr.getPos_y(), chr.getMargin_x(), chr.getMargin_y(),
+        boolean obsTrigger = obsCollision.TriggerEnter(chr[nowChr.ordinal()].getPos_x(), chr[nowChr.ordinal()].getPos_y(), chr[nowChr.ordinal()].getMargin_x(), chr[nowChr.ordinal()].getMargin_y(),
                 obs[index].getPos_x(), obs[index].getPos_y(), obs[index].getMargin_x(), obs[index].getMargin_y());
 
         // obstacle trigger
-        if (obsTrigger && !chr.isInvincible())
+        if (obsTrigger && !chr[nowChr.ordinal()].isInvincible())
         {
-            chr.nowLife -= 1;
-            chr.setInvincible(invincibleTimeByObs, true);
+            chr[nowChr.ordinal()].nowLife -= 1;
+            chr[nowChr.ordinal()].setInvincible(invincibleTimeByObs, true);
 
-            chr.setHitAnimSwitch(true);
+            chr[nowChr.ordinal()].setHitAnimSwitch(true);
             hitSound.start();
         }
     }
 
     private void CheckItemCollision (int index)
     {
-        boolean itemTrigger = itemCollision.TriggerEnter(chr.getPos_x(), chr.getPos_y(), chr.getMargin_x(), chr.getMargin_y(),
+        boolean itemTrigger = itemCollision.TriggerEnter(chr[nowChr.ordinal()].getPos_x(), chr[nowChr.ordinal()].getPos_y(), chr[nowChr.ordinal()].getMargin_x(), chr[nowChr.ordinal()].getMargin_y(),
                 item[index].getPos_x(), item[index].getPos_y(), item[index].getMargin_x(), item[index].getMargin_y());
 
         // item trigger
         if (itemTrigger)
         {
-            item[index].ItemEffect(chr);
+            item[index].ItemEffect(chr[nowChr.ordinal()]);
             itemSound.start();
         }
     }
@@ -264,16 +275,16 @@ public class InGame
         }
     }
 
-    private void drawHeart(Graphics g, View view)
+    private void DrawHeart(Graphics g, View view)
     {
-        if (chr.nowLife >= 0)
+        if (chr[nowChr.ordinal()].nowLife >= 0)
         {
-            for (int i = chr.maxLife - chr.nowLife; i > 0; i--)
+            for (int i = chr[nowChr.ordinal()].maxLife - chr[nowChr.ordinal()].nowLife; i > 0; i--)
             {
-                heart[chr.nowLife].SetHeartBlank();
+                heart[chr[nowChr.ordinal()].nowLife].SetHeartBlank();
             }
 
-            for (int i = 0; i < chr.nowLife; i++)
+            for (int i = 0; i < chr[nowChr.ordinal()].nowLife; i++)
             {
                 heart[i].SetHeartFill();
             }
@@ -282,6 +293,18 @@ public class InGame
             {
                 heart[i].draw(g, view);
             }
+        }
+    }
+
+    private void GoNextStage ()
+    {
+        if (score > 500 && nowChr.equals(CHARACTER.Pomeranian))
+        {
+            nowChr = CHARACTER.Maltese;
+        }
+        else if (score > 1000 && nowChr.equals(CHARACTER.Maltese))
+        {
+            nowChr = CHARACTER.Beagle;
         }
     }
 }
