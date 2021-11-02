@@ -1,4 +1,4 @@
-package Util;
+package Object.Character;
 
 import Main.View;
 

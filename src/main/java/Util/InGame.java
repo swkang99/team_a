@@ -3,30 +3,26 @@ package Util;
 import Main.MainFrame;
 import Main.View;
 import Object.Character.Chr;
+import Object.Character.Heart;
 import Object.Character.Pomeranian;
 import Object.MovingObject.Item.*;
 import Object.MovingObject.Obstacle.Obstacle;
-import Object.MovingObject.Obstacle.pix2.Bamboo;
-import Object.MovingObject.Obstacle.pix2.BigDog;
-import Object.MovingObject.Obstacle.pix2.Sign;
-import Object.MovingObject.Obstacle.pix2.TrashCan;
+import Object.MovingObject.Obstacle.pix2.*;
 import Object.MovingObject.Obstacle.flying_pix1.Bird;
 import Object.MovingObject.Obstacle.pix1.Bollard;
 import Object.MovingObject.Obstacle.pix1.DogHouse;
 import Object.MovingObject.Obstacle.pix1.FirePlug;
 import Object.MovingObject.Obstacle.pix1.TrashBag;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.geom.Dimension2D;
-import java.io.File;
-import java.io.IOException;
 import java.util.Random;
 
 public class InGame
 {
     private Chr chr;
-    private Obstacle[] obs;
+    private Obstacle[] obsPix1;
+    private ObstaclePix2[] obsPix2Up;
+    private ObstaclePix2[] obsPix2Down;
     private Item[] item;
     private Heart[] heart;
 
@@ -83,25 +79,43 @@ public class InGame
         chr = new Pomeranian(view);
         view.addKeyListener(chr);
 
-        int amountObs = 2;
-        obs = new Obstacle[OBSTACLE.values().length * amountObs];
+        int amountObsPix1 = 2;
+        obsPix1 = new Obstacle[OBSTACLEPIX1.values().length * amountObsPix1];
 
-        for (int i = 0; i < amountObs; i++)
+        for (int i = 0; i < amountObsPix1; i++)
         {
             // Flying obs pix 1
-            obs[0 + i * OBSTACLE.values().length] = new Bird(view);
+            obsPix1[0 + i * OBSTACLEPIX1.values().length] = new Bird(view);
 
             // obs pix 1
-            obs[1 + i * OBSTACLE.values().length] = new Bollard(view);
-            obs[2 + i * OBSTACLE.values().length] = new DogHouse(view);
-            obs[3 + i * OBSTACLE.values().length] = new FirePlug(view);
-            obs[4 + i * OBSTACLE.values().length] = new TrashBag(view);
+            obsPix1[1 + i * OBSTACLEPIX1.values().length] = new Bollard(view);
+            obsPix1[2 + i * OBSTACLEPIX1.values().length] = new DogHouse(view);
+            obsPix1[3 + i * OBSTACLEPIX1.values().length] = new FirePlug(view);
+            obsPix1[4 + i * OBSTACLEPIX1.values().length] = new TrashBag(view);
+        }
 
-            // obs pix 2
-            obs[5 + i * OBSTACLE.values().length] = new Bamboo(view);
-            obs[6 + i * OBSTACLE.values().length] = new BigDog(view);
-            obs[7 + i * OBSTACLE.values().length] = new Sign(view);
-            obs[8 + i * OBSTACLE.values().length] = new TrashCan(view);
+        int amountObsPix2Up = 2;
+        obsPix2Up = new ObstaclePix2[OBSTACLEPIX2UP.values().length * amountObsPix2Up];
+
+        for (int i = 0; i < amountObsPix2Up; i++)
+        {
+            // obs pix 2 Up
+            obsPix2Up[0 + i * OBSTACLEPIX2UP.values().length] = new Bamboo_Up(view);
+            obsPix2Up[1 + i * OBSTACLEPIX2UP.values().length] = new BigDog_Up(view);
+            obsPix2Up[2 + i * OBSTACLEPIX2UP.values().length] = new Sign_Up(view);
+            obsPix2Up[3 + i * OBSTACLEPIX2UP.values().length] = new TrashCan_Up(view);
+        }
+
+        int amountObsPix2Down = 2;
+        obsPix2Down = new ObstaclePix2[OBSTACLEPIX2DOWN.values().length * amountObsPix2Up];
+
+        for (int i = 0; i < amountObsPix2Down; i++)
+        {
+            // obs pix 2 Down
+            obsPix2Down[0 + i * OBSTACLEPIX2DOWN.values().length] = new Bamboo_Down(view);
+            obsPix2Down[1 + i * OBSTACLEPIX2DOWN.values().length] = new BigDog_Down(view);
+            obsPix2Down[2 + i * OBSTACLEPIX2DOWN.values().length] = new Sign_Down(view);
+            obsPix2Down[3 + i * OBSTACLEPIX2DOWN.values().length] = new TrashCan_Down(view);
         }
 
         int amountItem = 2;
@@ -133,12 +147,23 @@ public class InGame
 
         chr.draw(g, view);
 
-        for (int i = 0; i < obs.length; i++)
+        for (int i = 0; i < obsPix1.length; i++)
         {
-            if (obs[i].isEnable())
+            if (obsPix1[i].isEnable())
             {
-                obs[i].draw(g, view);
-                CheckObsCollision(i);
+                obsPix1[i].draw(g, view);
+                CheckObsCollision(obsPix1, i);
+            }
+        }
+
+        for (int i = 0; i < obsPix2Down.length; i++)
+        {
+            if (obsPix2Down[i].isEnable())
+            {
+                obsPix2Down[i].draw(g, view);
+                obsPix2Up[i].SetPosition(obsPix2Down[i].getPos_x(), obsPix2Down[i].getPos_y() - obsPix2Up[i].getHeight());
+                obsPix2Up[i].draw(g, view);
+                CheckObsCollision(obsPix2Down, i);
             }
         }
 
@@ -166,7 +191,7 @@ public class InGame
         g.drawString(Integer.toString(InGame.score), (MainFrame.frameWidth / 2) - 30, 72);
     }
 
-    private void CheckObsCollision (int index)
+    private void CheckObsCollision (Obstacle[] obs, int index)
     {
         boolean obsTrigger = obsCollision.TriggerEnter(chr.getPos_x(), chr.getPos_y(), chr.getMargin_x(), chr.getMargin_y(),
                 obs[index].getPos_x(), obs[index].getPos_y(), obs[index].getMargin_x(), obs[index].getMargin_y());
@@ -197,13 +222,19 @@ public class InGame
 
     private void MakeMovingObject ()
     {
-        switch (rand.nextInt(2))
+        switch (rand.nextInt(3))
         {
             case 0:
                 MakeItem();
+                break;
 
             case 1:
-                MakeObs();
+                MakeObsPix1();
+                break;
+
+            case 2:
+                MakeObsPix2();
+                break;
         }
     }
 
@@ -214,11 +245,23 @@ public class InGame
             item[rand_item].Activate();
     }
 
-    private void MakeObs ()
+    private void MakeObsPix1 ()
     {
-        int rand_obs = rand.nextInt(obs.length);
-        if (!obs[rand_obs].isEnable())
-            obs[rand_obs].Activate();
+        int rand_obs = rand.nextInt(obsPix1.length);
+        if (!obsPix1[rand_obs].isEnable())
+        {
+            obsPix1[rand_obs].Activate();
+        }
+    }
+
+    private void MakeObsPix2 ()
+    {
+        int rand_obs = rand.nextInt(obsPix2Down.length);
+        if (!obsPix2Down[rand_obs].isEnable())
+        {
+            obsPix2Down[rand_obs].Activate();
+            obsPix2Up[rand_obs].Activate();
+        }
     }
 
     private void drawHeart(Graphics g, View view)

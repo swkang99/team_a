@@ -42,8 +42,6 @@ public class DogBone extends Item
     {
         InGame.score += plusScore;
         chr.setInvincible(invincibleTimebyDogBone, false);
-
-        System.out.println("Dog Bone activated-chr invincible: " + chr.isInvincible());
         super.DisableItem();
     }
 }
