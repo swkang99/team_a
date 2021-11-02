@@ -2,6 +2,7 @@ package Object.MovingObject.Item;
 
 import Main.View;
 import Object.Character.Chr;
+import Util.Audio;
 import Util.InGame;
 
 import javax.imageio.ImageIO;
@@ -12,6 +13,7 @@ import java.io.IOException;
 public class DogBone extends Item
 {
     private double invincibleTimebyDogBone;
+
     public DogBone (View view)
     {
         super(view);
@@ -23,6 +25,7 @@ public class DogBone extends Item
         margin_y = height - 20;
 
         invincibleTimebyDogBone = 7;
+
 
         try
         {
@@ -40,6 +43,7 @@ public class DogBone extends Item
     {
         InGame.score += plusScore;
         chr.setInvincible(invincibleTimebyDogBone);
+
         System.out.println("Dog Bone activated-chr invincible: " + chr.isInvincible());
         super.DisableItem();
     }

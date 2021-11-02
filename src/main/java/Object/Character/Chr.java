@@ -3,8 +3,10 @@ package Object.Character;
 import Main.MainFrame;
 import Main.View;
 import Object.GameObject;
+import Util.Audio;
 import Util.Time;
 
+import java.applet.AudioClip;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -37,6 +39,10 @@ public class Chr extends GameObject implements KeyListener
     protected Image image_die;
     protected Image image_die_alphaSet;
 
+    private Audio jumpSound;
+    private Audio invincibleSound;
+    private Audio gameoverSound;
+
     public Chr(View view)
     {
         super(view);
@@ -68,6 +74,10 @@ public class Chr extends GameObject implements KeyListener
         invincible = false;
         hitAnimSwitch = false;
         invincibleTime = new Time();
+
+        jumpSound = new Audio("src/main/resources/sounds/jump.wav", false);
+        invincibleSound = new Audio("src/main/resources/sounds/invincible.wav", true);
+        gameoverSound = new Audio("src/main/resources/sounds/gameover.wav", false);
     }
 
     @Override
@@ -97,10 +107,16 @@ public class Chr extends GameObject implements KeyListener
         {
             case KeyEvent.VK_UP:
                 if (!jumping && !landing)
+                {
                     jumping = true;
+                    jumpSound.start();
+                }
             case KeyEvent.VK_SPACE:
                 if (!jumping && !landing)
+                {
                     jumping = true;
+                    jumpSound.start();
+                }
                 break;
         }
     }
@@ -117,7 +133,7 @@ public class Chr extends GameObject implements KeyListener
         {
             if (!hitAnimSwitch)
                 image = image_basic;
-            
+
             if (movingTime.timeCtrl(jumpingDelay))
                 pos_y -= gap;
             if (pos_y < MainFrame.ground_y - MainFrame.jumpLimit)
@@ -136,6 +152,7 @@ public class Chr extends GameObject implements KeyListener
             {
                 jumping = false;
                 landing = false;
+                jumpSound.stop();
             }
         }
     }
@@ -149,6 +166,8 @@ public class Chr extends GameObject implements KeyListener
     {
         invincible = true;
         invincibleDelay = invincibleTime;
+        if (invincibleTime == 7)
+            invincibleSound.start();
     }
 
     protected void ReleaseInvincible()
@@ -162,6 +181,7 @@ public class Chr extends GameObject implements KeyListener
 
                 setHitAnimSwitch(false);
                 image = image_basic;
+                invincibleSound.stop();
             }
         }
     }
@@ -212,6 +232,8 @@ public class Chr extends GameObject implements KeyListener
         {
             System.out.println("Game Over");
             image = image_die;
+            gameoverSound.start();
+            nowLife--;
         }
     }
 }

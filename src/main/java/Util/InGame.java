@@ -38,6 +38,10 @@ public class InGame
 
     Random rand = new Random();
 
+    private Audio itemSound;
+    private Audio hitSound;
+    private Audio ingameBGM;
+
     public InGame(View view)
     {
         InitObjects(view);
@@ -50,7 +54,12 @@ public class InGame
         makingTime = new Time();
 
         makingDelay = 1.7;
-        invincibleTimeByObs = 7;
+        invincibleTimeByObs = 6;
+
+        itemSound = new Audio("src/main/resources/sounds/item.wav", false);
+        hitSound = new Audio("src/main/resources/sounds/hit.wav", false);
+        ingameBGM = new Audio("src/main/resources/sounds/ingamebgm.wav", true);
+        ingameBGM.start();
     }
 
     private void InitObjects(View view)
@@ -123,6 +132,7 @@ public class InGame
         }
 
         score++;
+
     }
 
     private void CheckObsCollision (int index)
@@ -139,6 +149,7 @@ public class InGame
             System.out.println("invincible state: " + chr.isInvincible());
 
             chr.setHitAnimSwitch(true);
+            hitSound.start();
         }
     }
 
@@ -152,6 +163,7 @@ public class InGame
         {
             System.out.println("Item get: " + item[index].toString());
             item[index].ItemEffect(chr);
+            itemSound.start();
         }
     }
 
