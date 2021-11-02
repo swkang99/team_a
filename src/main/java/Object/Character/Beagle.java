@@ -25,6 +25,9 @@ public class Beagle extends Chr
             image_die = ImageIO.read(new File("src/main/resources/chr/Bi/dead.png"));
             image_die = image_die.getScaledInstance(width, height, Image.SCALE_SMOOTH);
 
+            image_die_alphaSet = ImageIO.read(new File("src/main/resources/chr/Bi/dead_alphaset.png"));
+            image_die_alphaSet = image_die_alphaSet.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+
             image = image_basic;
         }
         catch (IOException e)

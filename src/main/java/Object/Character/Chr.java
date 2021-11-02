@@ -35,6 +35,7 @@ public class Chr extends GameObject implements KeyListener
     protected Image image_basic;
     protected Image image_run;
     protected Image image_die;
+    protected Image image_die_alphaSet;
 
     public Chr(View view)
     {
@@ -60,7 +61,7 @@ public class Chr extends GameObject implements KeyListener
         movingTime = new Time();
 
         runAnimDelay = 0.07;
-        hitAnimDelay = 0.07;
+        hitAnimDelay = 0.1;
         runAniTime = new Time();
         hitAniTime = new Time();
 
@@ -114,7 +115,9 @@ public class Chr extends GameObject implements KeyListener
      {
         if (jumping)
         {
-            image = image_basic;
+            if (!hitAnimSwitch)
+                image = image_basic;
+            
             if (movingTime.timeCtrl(jumpingDelay))
                 pos_y -= gap;
             if (pos_y < MainFrame.ground_y - MainFrame.jumpLimit)
@@ -184,7 +187,14 @@ public class Chr extends GameObject implements KeyListener
         {
             if (hitAniTime.timeCtrl(hitAnimDelay))
             {
-                
+                if (image.equals(image_die))
+                {
+                    image = image_die_alphaSet;
+                }
+                else if (image.equals(image_die_alphaSet))
+                {
+                    image = image_die;
+                }
             }
         }
     }

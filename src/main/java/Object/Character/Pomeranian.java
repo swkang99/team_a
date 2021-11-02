@@ -24,6 +24,9 @@ public class Pomeranian extends Chr
             image_die = ImageIO.read(new File("src/main/resources/chr/Po/dead.png"));
             image_die = image_die.getScaledInstance(width, height, Image.SCALE_SMOOTH);
 
+            image_die_alphaSet = ImageIO.read(new File("src/main/resources/chr/Po/dead_alphaset.png"));
+            image_die_alphaSet = image_die_alphaSet.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+
             image = image_basic;
         }
         catch (IOException e)
