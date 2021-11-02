@@ -15,7 +15,11 @@ import Object.MovingObject.Obstacle.pix1.DogHouse;
 import Object.MovingObject.Obstacle.pix1.FirePlug;
 import Object.MovingObject.Obstacle.pix1.TrashBag;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.geom.Dimension2D;
+import java.io.File;
+import java.io.IOException;
 import java.util.Random;
 
 public class InGame
@@ -23,6 +27,7 @@ public class InGame
     private Chr chr;
     private Obstacle[] obs;
     private Item[] item;
+    private Heart[] heart;
 
     private BGScroll bgScroll;
 
@@ -45,6 +50,7 @@ public class InGame
     public InGame(View view)
     {
         InitObjects(view);
+        InitHeart();
 
         obsCollision = new Collision();
         itemCollision = new Collision();
@@ -54,12 +60,14 @@ public class InGame
         makingTime = new Time();
 
         makingDelay = 1.7;
-        invincibleTimeByObs = 6;
+        invincibleTimeByObs = 7;
 
         itemSound = new Audio("src/main/resources/sounds/item.wav", false);
         hitSound = new Audio("src/main/resources/sounds/hit.wav", false);
         ingameBGM = new Audio("src/main/resources/sounds/ingamebgm.wav", true);
         ingameBGM.start();
+
+
     }
 
     private void InitObjects(View view)
@@ -102,6 +110,16 @@ public class InGame
         }
     }
 
+    private void InitHeart ()
+    {
+        heart = new Heart[chr.maxLife];
+
+        for (int i = 0; i < heart.length; i++)
+        {
+            heart[i] = new Heart(40 + i * 40,40);
+        }
+    }
+
     public void Update(Graphics g, View view)
     {
         bgScroll.draw(g, view);
@@ -126,6 +144,11 @@ public class InGame
             }
         }
 
+        for (int i = 0; i < heart.length; i++)
+        {
+            heart[i].draw(g, view);
+        }
+
         if (makingTime.timeCtrl(makingDelay))
         {
             MakeMovingObject();
@@ -144,9 +167,9 @@ public class InGame
         if (obsTrigger && !chr.isInvincible())
         {
             chr.nowLife -= 1;
-            System.out.println("life: " + chr.nowLife);
             chr.setInvincible(invincibleTimeByObs, true);
-            System.out.println("invincible state: " + chr.isInvincible());
+
+            heart[chr.nowLife].BreakHeart();
 
             chr.setHitAnimSwitch(true);
             hitSound.start();
@@ -161,7 +184,6 @@ public class InGame
         // item trigger
         if (itemTrigger)
         {
-            System.out.println("Item get: " + item[index].toString());
             item[index].ItemEffect(chr);
             itemSound.start();
         }

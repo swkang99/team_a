@@ -14,14 +14,6 @@ public class Bird extends ObstacleFlyingPix1
     {
         super(view);
 
-        gap = 5;
-
-        width = 40;
-        height = 40;
-
-        margin_x = width - 20;
-        margin_y = height - 20;
-
         try
         {
             image = ImageIO.read(new File("src/main/resources/obs/flying 1 pix/bird.png"));

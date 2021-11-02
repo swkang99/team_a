@@ -26,7 +26,6 @@ public class DogBone extends Item
 
         invincibleTimebyDogBone = 7;
 
-
         try
         {
             image = ImageIO.read(new File("src/main/resources/item/dogbone.png"));
