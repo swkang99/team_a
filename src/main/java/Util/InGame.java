@@ -104,9 +104,9 @@ public class InGame
         for (int i = 0; i < amountItem; i++)
         {
             item[0 + i * ITEM.values().length] = new DogBone(view);
-            item[1 + i * ITEM.values().length] = new DogBone(view);
-            item[2 + i * ITEM.values().length] = new DogBone(view);
-            item[3 + i * ITEM.values().length] = new DogBone(view);
+            item[1 + i * ITEM.values().length] = new DogFood(view);
+            item[2 + i * ITEM.values().length] = new Soap(view);
+            item[3 + i * ITEM.values().length] = new Water(view);
         }
     }
 
@@ -144,11 +144,6 @@ public class InGame
             }
         }
 
-        for (int i = 0; i < heart.length; i++)
-        {
-            heart[i].draw(g, view);
-        }
-
         if (makingTime.timeCtrl(makingDelay))
         {
             MakeMovingObject();
@@ -156,6 +151,7 @@ public class InGame
 
         score++;
 
+        drawHeart(g, view);
     }
 
     private void CheckObsCollision (int index)
@@ -168,8 +164,6 @@ public class InGame
         {
             chr.nowLife -= 1;
             chr.setInvincible(invincibleTimeByObs, true);
-
-            heart[chr.nowLife].BreakHeart();
 
             chr.setHitAnimSwitch(true);
             hitSound.start();
@@ -213,5 +207,23 @@ public class InGame
         int rand_obs = rand.nextInt(obs.length);
         if (!obs[rand_obs].isEnable())
             obs[rand_obs].Activate();
+    }
+
+    private void drawHeart(Graphics g, View view)
+    {
+        for (int i = chr.maxLife - chr.nowLife; i > 0; i--)
+        {
+            heart[chr.nowLife].SetHeartBlank();
+        }
+
+        for (int i = 0; i < chr.nowLife; i++)
+        {
+            heart[i].SetHeartFill();
+        }
+
+        for (int i = 0; i < heart.length; i++)
+        {
+            heart[i].draw(g, view);
+        }
     }
 }

@@ -50,7 +50,12 @@ public class Heart
         g.drawImage(image, pos_x, pos_y, (ImageObserver) view);
     }
 
-    public void BreakHeart ()
+    public void SetHeartFill ()
+    {
+        image = heart_fill;
+    }
+
+    public void SetHeartBlank ()
     {
         image = heart_blank;
     }
