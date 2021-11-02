@@ -96,9 +96,9 @@ public class InGame
         for (int i = 0; i < amountItem; i++)
         {
             item[0 + i * ITEM.values().length] = new DogBone(view);
-            item[1 + i * ITEM.values().length] = new DogFood(view);
-            item[2 + i * ITEM.values().length] = new Soap(view);
-            item[3 + i * ITEM.values().length] = new Water(view);
+            item[1 + i * ITEM.values().length] = new DogBone(view);
+            item[2 + i * ITEM.values().length] = new DogBone(view);
+            item[3 + i * ITEM.values().length] = new DogBone(view);
         }
     }
 
@@ -145,7 +145,7 @@ public class InGame
         {
             chr.nowLife -= 1;
             System.out.println("life: " + chr.nowLife);
-            chr.setInvincible(invincibleTimeByObs);
+            chr.setInvincible(invincibleTimeByObs, true);
             System.out.println("invincible state: " + chr.isInvincible());
 
             chr.setHitAnimSwitch(true);

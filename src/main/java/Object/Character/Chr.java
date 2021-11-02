@@ -29,18 +29,21 @@ public class Chr extends GameObject implements KeyListener
     private Time runAniTime;
     private Time hitAniTime;
 
-    private boolean invincible;
+    private boolean invincibleByObs;
+    private boolean invincibleByItem;
     private boolean hitAnimSwitch;
     private double invincibleDelay;
     private Time invincibleTime;
 
     protected Image image_basic;
+    protected Image image_basic_invincible;
     protected Image image_run;
+    protected Image image_run_invincible;
     protected Image image_die;
     protected Image image_die_alphaSet;
 
+
     private Audio jumpSound;
-    private Audio invincibleSound;
     private Audio gameoverSound;
 
     public Chr(View view)
@@ -71,12 +74,12 @@ public class Chr extends GameObject implements KeyListener
         runAniTime = new Time();
         hitAniTime = new Time();
 
-        invincible = false;
+        invincibleByObs = false;
+        invincibleByItem = false;
         hitAnimSwitch = false;
         invincibleTime = new Time();
 
         jumpSound = new Audio("src/main/resources/sounds/jump.wav", false);
-        invincibleSound = new Audio("src/main/resources/sounds/invincible.wav", true);
         gameoverSound = new Audio("src/main/resources/sounds/gameover.wav", false);
     }
 
@@ -159,29 +162,35 @@ public class Chr extends GameObject implements KeyListener
 
     public boolean isInvincible()
     {
-        return invincible;
+        return invincibleByObs || invincibleByItem;
     }
 
-    public void setInvincible(double invincibleTime)
+    // invincibleSwitch: true -> by obs, false -> by item
+    public void setInvincible(double invincibleTime, boolean invincibleSwitch)
     {
-        invincible = true;
+        if (invincibleSwitch)
+        {
+            invincibleByObs = true;
+        }
+        else
+        {
+            invincibleByItem = true;
+        }
+        image = image_basic_invincible;
         invincibleDelay = invincibleTime;
-        if (invincibleTime == 7)
-            invincibleSound.start();
     }
 
     protected void ReleaseInvincible()
     {
-        if (invincible)
+        if (invincibleByItem || invincibleByObs)
         {
             if (invincibleTime.timeCtrl(invincibleDelay))
             {
-                invincible = false;
-                System.out.println("invincible release-chr state: " + invincible);
+                invincibleByObs = false;
+                invincibleByItem = false;
 
                 setHitAnimSwitch(false);
                 image = image_basic;
-                invincibleSound.stop();
             }
         }
     }
@@ -190,13 +199,27 @@ public class Chr extends GameObject implements KeyListener
     {
         if (runAniTime.timeCtrl(runAnimDelay))
         {
-            if (image.equals(image_basic))
+            if (invincibleByItem)
             {
-                image = image_run;
+                if (image.equals(image_basic_invincible))
+                {
+                    image = image_run_invincible;
+                }
+                else if (image.equals(image_run_invincible))
+                {
+                    image = image_basic_invincible;
+                }
             }
-            else if (image.equals(image_run))
+            else
             {
-                image = image_basic;
+                if (image.equals(image_basic))
+                {
+                    image = image_run;
+                }
+                else if (image.equals(image_run))
+                {
+                    image = image_basic;
+                }
             }
         }
     }
